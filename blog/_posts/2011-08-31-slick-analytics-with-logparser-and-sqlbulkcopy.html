@@ -17,7 +17,7 @@ title: Slick Analytics with LogParser and SqlBulkCopy
 
 <p>Our importer needs to be able to read the CSV files, and spit the data into SQL server. Luckily, both of these are supported by Microsoft’s ADO.NET providers. First, we will use a standard SQL Server connection for the destination database:</p>
 
-<p><img title="SqlBulkCopy - 1 - WebLogs Connection" border="0" alt="SqlBulkCopy - 1 - WebLogs Connection" src="/blog/images/SqlBulkCopy%20-%201%20-%20WebLogs%20Connection.png" width="244" height="174" /></a></p>
+<p><img title="SqlBulkCopy - 1 - WebLogs Connection" border="0" alt="SqlBulkCopy - 1 - WebLogs Connection" src="{{ site.url }}/blog/images/SqlBulkCopy%20-%201%20-%20WebLogs%20Connection.png" width="244" height="174" /></a></p>
 
 <p>Next, we will use an ODBC connection for the CSV files:</p>
 
@@ -25,7 +25,7 @@ title: Slick Analytics with LogParser and SqlBulkCopy
   <p><font size="2" face="Courier New">Driver={Microsoft Text Driver (*.txt; *.csv)};Dbq=.;Extensions=csv</font></p>
 </blockquote>
 
-<p><img title="SqlBulkCopy - 2 - CSV Connection" border="0" alt="SqlBulkCopy - 2 - CSV Connection" src="/blog/images/SqlBulkCopy%20-%202%20-%20CSV%20Connection.png" width="226" height="244" /></a></p>
+<p><img title="SqlBulkCopy - 2 - CSV Connection" border="0" alt="SqlBulkCopy - 2 - CSV Connection" src="{{ site.url }}/blog/images/SqlBulkCopy%20-%202%20-%20CSV%20Connection.png" width="226" height="244" /></a></p>
 
 <p>Using the Microsoft Text Driver, it is possible to read CSV files like this:</p>
 
@@ -145,7 +145,7 @@ title: Slick Analytics with LogParser and SqlBulkCopy
 
 <p>So, here is how my server’s graph looks: (in Excel, since I’m using SQL Express on my server)</p>
 
-<p><img title="SqlBulkCopy - 2 - Graph" alt="SqlBulkCopy - 2 - Graph" src="/blog/images/SqlBulkCopy%20-%202%20-%20Graph.png" width="244" height="160" /></a></p>
+<p><img title="SqlBulkCopy - 2 - Graph" alt="SqlBulkCopy - 2 - Graph" src="{{ site.url }}/blog/images/SqlBulkCopy%20-%202%20-%20Graph.png" width="244" height="160" /></a></p>
 
 <p>Can we find out what bots are hitting the site?&#160; Sure:</p>
 
