@@ -1,0 +1,127 @@
+---
+layout: post
+title: Range header, I choose you!
+---
+<p>I was looking around for a semantic way to do pagination in the web API for a small personal project this weekend.  I wasn't really satisfied with the OData pattern of using query string arguments, like  <code>$skip</code> and  <code>$top</code>.  For one, they didn't seem <em>semantic</em> in the query string, since paginating a list of entities is not the same a filtering that list.  I happened upon <a href="http://stackoverflow.com/questions/924472/paging-in-a-rest-collection">a question on Stack Overflow</a> that discussed using the Range HTTP header for this purpose.  The conclusion there was to use a different approach (mimicking Atom), but I felt that the Range header could be very successful with a little effort.</p>
+
+<h2>Why is the Range header a good fit?</h2>
+
+<p>RFC 2616 has <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.2">this to say about the Range header</a>:</p>
+
+<blockquote>
+  <p>HTTP retrieval requests using conditional or unconditional GET methods MAY request one or more sub-ranges of the entity, instead of the entire entity, using the Range request header, which applies to the entity returned as the result of the request</p>
+</blockquote>
+
+<p>This is, after all, exactly what we are trying to do.</p>
+
+<h2>Let's compare the semantics of the OData style and of Range headers.</h2>
+
+<h3>Querying the root of the collection.</h3>
+
+<p><strong>OData-style</strong></p>
+<p>Request</p>
+<blockquote>
+  <code>GET /users</code>
+</blockquote>
+<p>Response</p>
+<blockquote>
+  <code>200 OK
+  <br />[ 0..9 ]</code>
+</blockquote>
+
+<p><strong>Range-header-style</strong></p>
+<p>Request</p>
+<blockquote>
+  <code>GET /users</code>
+</blockquote>
+<p>Response</p>
+<blockquote>
+  <code>200 OK
+  <br />Accept-Ranges: users
+  <br />Content-Range: users 0-9/200
+  <br />[ 0..9 ]</code>
+</blockquote>
+
+<p><strong>Comparison</strong></p>
+<p>Both of these have defaults for what the user is allowed to request (limited to 10), but the Range header style would automatically send back the count, without $inlinecount being specified.  You would simply need to know where to look. The Accept-Ranges header signals that the <code>users</code> range is accepted for range requests and implies that a <code>Content-Ranes</code> may be present.</p>
+<p>Interestingly, the response code for the Range header style is  <code>200</code> rather than <code>206</code> because the request was missing the Range header itself.  Accept-Range and Content-Range headers are still allowed in the response, keeping it semantically complete.</p>
+<p>The OData-style, in contrast, will not automatically include the count of the collection.  Event if there were a sidechannel in this request where the count was included, there is no discoverability of this fact.</p>
+
+<h3>Pulling the first page of results normally.</h3>
+
+<p><strong>OData-style</strong></p>
+<p>Request</p>
+<blockquote>
+  <code>GET /users?$skip=0&amp;$top=10&amp;$inlinecount=allpages</code>
+</blockquote>
+<p>Response</p>
+<blockquote>
+  <code>200 OK
+  <br />X-Some-Sidechannel: count=200
+  <br />[ 0..19 ]</code>
+</blockquote>
+
+<p><strong>Range-header-style</strong></p>
+<p>Request</p>
+<blockquote>
+  <code>GET /users
+  <br />Range: users=10-19</code>
+</blockquote>
+<p>Response</p>
+<blockquote>
+  <code>209 Partial Content
+  <br />Accept-Ranges: users
+  <br />Content-Range: users 10-19/200
+  <br />[ 10..19 ]</code>
+</blockquote>
+
+<p><strong>Comparison</strong></p>
+<p>Since the request was made with a Range header, the right side is allowed to respond with a <code>209 Partial Content</code> response code, indicating the presence of the Content-Range response header.</p>
+<p>OData had to specify the <code>$inlinecount=allpages</code> parameter in order to get the full length of the filtered collection, bloating the URL.</p>
+<p>
+  Additionally, the Range header style is allowed to return a Content-Range response looking something like this:
+  <blockquote>
+    <code>Content-Range: 200-250/*</code>
+  </blockquote>
+  This indicates that the full count is not included, possibly because it is too expensive to calculate.  This is often the case for complex queries.  This flexibility allows the server to chose whether or not to calculate the total length, based on the particular query at hand. In the OData version, however, the <code>$inlinecount</code> parameter is a command to get the count.  The server is not free to withold the count when it is expensive or difficult to obtain.
+</p>
+
+<h3>Pulling subsequent pages of data.</h3>
+<p>Both systems perform roughly the same for pages in the middle of the collection.</p>
+
+<h3>Requesting past the end of the collection.</h3>
+
+<p><strong>OData-style</strong></p>
+<p>Request</p>
+<blockquote>
+  <code>GET /users?$skip=1000</code>
+</blockquote>
+<p>Response</p>
+<blockquote>
+  <code>200 OK
+  <br />[]</code>
+</blockquote>
+
+<p><strong>Range-header-style</strong></p>
+<p>Request</p>
+<p>
+  <blockquote>
+    <code>GET /users
+    <br />Range: users=1000-</code>
+  </blockquote>
+  <em>Notice that the unbounded range keeps the semantics of the OData-style request.</em>
+</p>
+<p>Response</p>
+<blockquote>
+  <code>416 Requested Range Not Satisfiable</code>
+</blockquote>
+
+<p><strong>Comparison</strong></p>
+<p>
+  The response of the Range header style request is precisely in line with the spec:
+  <blockquote>
+    A server SHOULD return a response with this status code if a request included a Range request-header field, and none of the range-specifier values in this field overlap the current extent of the selected resource, and the request did not include an If-Range request-header field. (For byte-ranges, this means that the first-byte-pos of all of the byte-range-spec values were greater than the current length of the selected resource.)
+  </blockquote>
+  Note, as well, that byte-ranges are specified here as a single use-case of the range header, firmly implying that the usage as shown here is the correct semantic usage.
+</p>
+<p>The OData-style is not allowed to return a <code>416<code> status code, because it never sent a Range header.  However, this header still seems semantically correct, even for OData.</p>
