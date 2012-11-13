@@ -2,19 +2,24 @@
 layout: post
 title: Range header, I choose you!
 ---
-<p>I was looking around for a semantic way to do pagination in the web API for a small personal project this weekend.  I wasn't really satisfied with the OData pattern of using query string arguments, like  <code>$skip</code> and  <code>$top</code>.  For one, they didn't seem <em>semantic</em> in the query string, since paginating a list of entities is not the same a filtering that list.  I happened upon <a href="http://stackoverflow.com/questions/924472/paging-in-a-rest-collection">a question on Stack Overflow</a> that discussed using the Range HTTP header for this purpose.  The conclusion there was to use a different approach (mimicking Atom), but I felt that the Range header could be very successful with a little effort.</p>
+<p>I was looking around for a semantic way to do pagination in the HTTP API for a small personal project this last weekend.  I wasn't really satisfied with the OData pattern of using query string arguments, like  <code>$skip</code> and  <code>$top</code>.  For one, they didn't seem <em>semantic</em> in the query string.  It seems to me that queries on the resource belong in the query string whereas flow control, rate limiting, pagination, and etc. belong in the the HTTP/TCP/IP headers.</p>
+<p>You could argue that skip and top queries <em>are</em> queries on the resource.  This may be true, but even with that being said, pagination is still an additional concern on top of these types of queries.  For example, I may want to look at a list of the top one thousand donors to my political campaign, but I only want to look at this list ten at a time.  Just because you can get this behavior by mucking with the query string doesn't make it the right place to do it.</p>
+<p>I happened upon <a href="http://stackoverflow.com/questions/924472/paging-in-a-rest-collection">a question on Stack Overflow</a> that discussed using the Range HTTP header for pagination purposes.  The conclusion there was to use a different approach (mimicking Atom), but I disagree with thier conclusion.  I feel that the Range header could be very successfully with only a little effort.</p>
 
 <h2>Why is the Range header a good fit?</h2>
+<p>The Range header is normally used by browsers to request specific byte-ranges of binary files.  It is what powers the pause-and-resume functionality of almost every download manager in existence.  I was tempted, at first, to simply conclude that usage of the Range header for any purpose other than pause-and-resume would be an abuse.</p>
+<p>
+  However, RFC 2616 has <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.2">this to say about the Range header</a>:
+  <blockquote>
+    HTTP retrieval requests using conditional or unconditional GET methods MAY request one or more sub-ranges of the entity, instead of the entire entity, using the Range request header, which applies to the entity returned as the result of the request.
+  </blockquote>
+  Our entity is a collection of objects, and we are requesting "sub-ranges of the entity, instead of the entire entity."  This is a perfect fit.
+</p>
 
-<p>RFC 2616 has <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.2">this to say about the Range header</a>:</p>
+<h2>How does it measure up?</h2>
 
-<blockquote>
-  <p>HTTP retrieval requests using conditional or unconditional GET methods MAY request one or more sub-ranges of the entity, instead of the entire entity, using the Range request header, which applies to the entity returned as the result of the request</p>
-</blockquote>
-
-<p>This is, after all, exactly what we are trying to do.</p>
-
-<h2>Let's compare the semantics of the OData style and of Range headers.</h2>
+<p>So, from the spec, it looks like the Range header was designed specifically to handle this concern, but how does this play out in practice?  It would be foolish to just commit to using the header without making sure it was up to the task.</p>
+<p>Let's evaluate its behavior in contrast to OData-style pagination.</p>
 
 <h3>Querying the root of the collection.</h3>
 
@@ -26,6 +31,7 @@ title: Range header, I choose you!
 <p>Response</p>
 <blockquote>
   <code>200 OK
+  <br />
   <br />[ 0..9 ]</code>
 </blockquote>
 
@@ -39,6 +45,7 @@ title: Range header, I choose you!
   <code>200 OK
   <br />Accept-Ranges: users
   <br />Content-Range: users 0-9/200
+  <br />
   <br />[ 0..9 ]</code>
 </blockquote>
 
@@ -58,6 +65,7 @@ title: Range header, I choose you!
 <blockquote>
   <code>200 OK
   <br />X-Some-Sidechannel: count=200
+  <br />
   <br />[ 0..19 ]</code>
 </blockquote>
 
@@ -72,6 +80,7 @@ title: Range header, I choose you!
   <code>209 Partial Content
   <br />Accept-Ranges: users
   <br />Content-Range: users 10-19/200
+  <br />
   <br />[ 10..19 ]</code>
 </blockquote>
 
@@ -99,6 +108,7 @@ title: Range header, I choose you!
 <p>Response</p>
 <blockquote>
   <code>200 OK
+  <br />
   <br />[]</code>
 </blockquote>
 
@@ -109,7 +119,7 @@ title: Range header, I choose you!
     <code>GET /users
     <br />Range: users=1000-</code>
   </blockquote>
-  <em>Notice that the unbounded range keeps the semantics of the OData-style request.</em>
+  <em>Notice that the unbounded range mimmicks the semantics of the OData-style request.</em>
 </p>
 <p>Response</p>
 <blockquote>
@@ -124,4 +134,4 @@ title: Range header, I choose you!
   </blockquote>
   Note, as well, that byte-ranges are specified here as a single use-case of the range header, firmly implying that the usage as shown here is the correct semantic usage.
 </p>
-<p>The OData-style is not allowed to return a <code>416<code> status code, because it never sent a Range header.  However, this header still seems semantically correct, even for OData.</p>
+<p>The OData-style is not allowed to return a <code>416</code> status code, because it never sent a Range header.  However, this header still seems semantically correct, even for OData.</p>
