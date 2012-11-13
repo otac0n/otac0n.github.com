@@ -1,0 +1,89 @@
+---
+layout: post
+title: Getting IntelliSense in JavaScript files in ASP.NET MVC
+---
+<h2>The Problem</h2>
+<p>If you are like me, you have probably had trouble in the past trying to get JavaScript IntelliSense to work well in Visual Studio.</p>
+<p>You have probably gone through these steps:</p>
+<p>
+    <strong>“I’ll just add my script here, and presto!”</strong><br />
+    <img title="AddScript" alt="AddScript" src="/images/posts/AddScript.png" />
+</p>
+<p>
+    <strong>“Well, that didn’t work.&#160; It kept the App Path Modifier… dammit.”</strong><br />
+    <img title="Result" alt="Result" src="/images/posts/Result.png" />
+</p>
+<p>
+    <strong>“I’ll just add a run-at attribute, so that ASP.NET transforms the path for me…”</strong><br />
+    <img title="RunAtServer" alt="RunAtServer" src="/images/posts/RunAtServer.png" />
+</p>
+<p>
+    <strong>“Oh, my goodness gracious!”</strong><br />
+    <img title="RunAtServerResult" alt="RunAtServerResult" src="/images/posts/RunAtServerResult.png" />
+</p>
+
+<h2>So where does that leave us?</h2>
+<p>
+    We can’t use <font face="Consolas"><font color="#ff0000">runat</font><font color="#0000ff">=&quot;server&quot;</font></font> on script tags,
+    because ASP.NET has repurposed this format in order to include server-side code into the page.&#160; This in effect means that we can’t use
+    the “virtual path” to reference the same script from everywhere in our app.&#160; Since we can’t use a virtual path, and we can’t use a
+    relative path, we are stuck.</p>  <p>Add on top of this that we often need to switch between different scripts for auto-completion,
+    debugging, and production and you start to see the direness of the situation.</p>  <p>At the center of the issue is the fact that Visual
+    Studio can’t execute code in the editor in order to “know” where a script will come from.&#160; If it could, then we would just write a
+    chunk of code to do the virtual path transformation based on current mode.&#160; We would have minified scripts for production (by default),
+    VSDoc scripts for IntelliSense (in design mode), and full source scripts for debugging (when DEBUG is defined or a debugger is attached).
+</p>
+<p>
+    At this point, I used to conclude that I had to live with all of my .aspx files living in one folder, or I had to live without JavaScript
+    IntelliSense.
+</p>
+
+<h2>A Solution</h2>
+<p>
+    The little bit of magic required to make everything work in our favor is the fact that Visual Studio will treat everything outside of
+    <font face="Consolas"><font style="background-color: #ffff00">&lt;%</font> ... <font style="background-color: #ffff00">%&gt;</font></font>
+    code sections as though it were one continuous block of HTML.&#160; This means that we can use a technique similar to conditional comments in
+    order to ignore sections of HTML, but still have it recognized as part of the HTML document.
+</p>
+<p>
+    Take these lines for example:
+</p>
+<p>
+    <font face="Consolas"><font style="background-color: #ffff00">&lt;%</font> <font color="#0000ff">if</font> (<font color="#0000ff">false</font>) { </font><font face="Consolas"><font style="background-color: #ffff00">%&gt;       <br /></font>Test      <br /><font style="background-color: #ffff00">&lt;%</font> } <font style="background-color: #ffff00">%&gt;</font></font>
+</p>
+<p>
+    After being transformed by ASP.NET into a pure C# listing, this code will be compiled into an assembly.&#160; Since the code is unreachable, it
+    will be ignored and will not be checked for definite assignment as per the C# spec (§5.3.3.1).
+</p>
+<p>
+    Extending this idea a little bit further, we can add our long-sought-after IntelliSense:
+</p>
+
+<font face="Consolas"><font style="background-color: #ffff00">&lt;%</font> <font color="#0000ff">if</font> (<font color="#0000ff">false</font>) { </font><font face="Consolas"><font style="background-color: #ffff00">%&gt;     <br /></font><font color="#0000ff">&lt;</font><font color="#800000">script</font> <font color="#ff0000">src</font><font color="#0000ff">=&quot;../../Scripts/jquery-1.4.1-vsdoc.js&quot;</font> <font color="#ff0000">type</font><font color="#0000ff">=&quot;text/javascript&quot;</font><font color="#0000ff">&gt;&lt;/</font><font color="#800000">script</font><font color="#0000ff">&gt;</font>    <br /><font style="background-color: #ffff00">&lt;%</font> } <font style="background-color: #ffff00">%&gt;</font></font>
+
+<p>
+    We can use the relative path here, since this will never make it across the wire.&#160; Just make sure that the script is referenced relative to
+    the physical file in which this tag exists.</p>  <p>Now, for the real script tag, we can use the static functions that ASP.NET provides to emit the
+    proper path:
+</p>
+
+<font face="Consolas"><font color="#0000ff">&lt;</font><font color="#800000">script</font> <font color="#ff0000">src</font><font color="#0000ff">=&quot;<font color="#000000"><font style="background-color: #ffff00">&lt;%</font></font></font></font><font face="Consolas"><font color="#0000ff"><font color="#000000">:</font></font></font><font face="Consolas"><font color="#0000ff"><font color="#000000"><font style="background-color: #ffff00"></font> Url.Content(</font><font color="#800000">&quot;~/Scripts/jquery-1.4.1-vsdoc.js&quot;</font><font color="#000000">) <font style="background-color: #ffff00">%&gt;</font></font>&quot;</font> <font color="#ff0000">type</font><font color="#0000ff">=&quot;text/javascript&quot;</font><font color="#0000ff">&gt;&lt;/</font><font color="#800000">script</font><font color="#0000ff">&gt;</font>    <br /></font>
+
+<p>
+    For ASP.NET WebForms, you would use the <font face="Consolas">Server.ApplyAppPathModifier()</font> function in place of
+    <font face="Consolas">Url.Content()</font>.
+</p>
+
+<h2>Variations and Conclusion</h2>
+<p>
+    Variations on this trick would include using compiler directives like “<font face="Consolas"><font color="#0000ff">#if</font> FALSE</font>”, or
+    <font color="#008000" face="Consolas">/* block comments */</font> to exclude the section of code.&#160; Both of these methods seem to work.
+</p>
+<p>
+    If you use the method described above with a build server, or while compiling view locally, you may get a compiler warning saying “unreachable
+    code detected.”&#160; If this warning bothers you you can use “<font face="Consolas"><font color="#0000ff">#pragma</font> warning disable 162</font>”
+    and “<font face="Consolas"><font color="#0000ff">#pragma</font> warning enable 162</font>” at the start and end of your if statement to suppress it.
+</p>
+<p>
+    I hope this helps you get the most out of Visual Studio and ASP.NET!&#160; Your feedback is welcomed.
+</p>
