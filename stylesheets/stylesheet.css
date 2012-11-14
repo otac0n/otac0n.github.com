@@ -343,53 +343,53 @@ footer .owner p a {
 }
 
 /* Markdown */
-.markdown-body h1,
-.markdown-body h2,
-.markdown-body h3,
-.markdown-body h4,
-.markdown-body h5,
-.markdown-body h6,
-.markdown-body p,
-.markdown-body pre,
-.markdown-body ul,
-.markdown-body ol,
-.markdown-body dl,
-.markdown-body table,
-.markdown-body blockquote {
+article.post h1,
+article.post h2,
+article.post h3,
+article.post h4,
+article.post h5,
+article.post h6,
+article.post p,
+article.post pre,
+article.post ul,
+article.post ol,
+article.post dl,
+article.post table,
+article.post blockquote {
   margin-bottom: 20px;
 }
 
-.markdown-body h1,
-.markdown-body h2,
-.markdown-body h3,
-.markdown-body h4,
-.markdown-body h5,
-.markdown-body h6 {
+article.post h1,
+article.post h2,
+article.post h3,
+article.post h4,
+article.post h5,
+article.post h6 {
   font-weight: bold;
 }
 
-.markdown-body h1 {
+article.post h1 {
   font-size: 28px;
 }
 
-.markdown-body h2 {
+article.post h2 {
   font-size: 24px;
   color: #557398;
 }
 
-.markdown-body h3 {
+article.post h3 {
   font-size: 20px;
 }
 
-.markdown-body h4 {
+article.post h4 {
   font-size: 18px;
 }
 
-.markdown-body h5 {
+article.post h5 {
   font-size: 16px;
 }
 
-.markdown-body pre {
+article.post pre {
   padding: 10px 70px 10px 0;
   margin-left: -20px;
   margin-right: -20px;
@@ -402,7 +402,7 @@ footer .owner p a {
   color: #d6d6d6;
 }
 
-.markdown-body pre.lines {
+article.post pre.lines {
   font-size: 12px;
   margin:0 10px 0 -20px;
   padding: 10px;
@@ -414,84 +414,84 @@ footer .owner p a {
   color: #d6d6d6;
 }
 
-.markdown-body ul,
-.markdown-body ol {
+article.post ul,
+article.post ol {
   padding-left: 30px;
 }
 
-.markdown-body ul {
+article.post ul {
   list-style-type: disc;
 }
 
-.markdown-body li,
-.markdown-body li p,
-.markdown-body dd,
-.markdown-body dd p {
+article.post li,
+article.post li p,
+article.post dd,
+article.post dd p {
   margin-bottom: 10px;
 }
 
-.markdown-body li pre,
-.markdown-body li pre.lines,
-.markdown-body dd pre,
-.markdown-body dd pre.lines {
+article.post li pre,
+article.post li pre.lines,
+article.post dd pre,
+article.post dd pre.lines {
   margin-left: -35px;
 }
 
-.markdown-body dt {
+article.post dt {
   font-weight: bold;
   font-style: italic;
 }
 
-.markdown-body dd {
+article.post dd {
   margin-left: 15px;
 }
 
-.markdown-body table {
+article.post table {
   width: 673px;
   margin-left: -20px;
   margin-right: -20px;
 }
 
-.markdown-body tbody {
+article.post tbody {
   border-top: 2px solid #557398;
   border-bottom: 2px solid #557398;
   background-color: #EBEFF4;
 }
 
-.markdown-body table td * {
+article.post table td * {
   margin: 0;
 }
 
-.markdown-body td {
+article.post td {
   border-right: 1px solid #557398;
   border-bottom: 1px solid #557398;
   padding: 5px;
 }
 
-.markdown-body td:first-child,
-.markdown-body th:first-child {
+article.post td:first-child,
+article.post th:first-child {
   width: 30%;
   padding-left: 20px;
 }
 
-.markdown-body td:last-child {
+article.post td:last-child {
   border-right: 0 none;
 }
 
-.markdown-body th {
+article.post th {
   font-size: 18px;
   font-weight: bold;
   text-align: left;
   padding: 5px;
 }
 
-.markdown-body tt {
+article.post tt {
   background-color:#3b3b3b;
   color: #d6d6d6;
   padding: 2px 3px;
 }
 
-.markdown-body blockquote {
+article.post blockquote {
   font-style: italic;
   font-family:Georgia, serif;
   font-size: 17px;
@@ -501,7 +501,7 @@ footer .owner p a {
   padding-left: 50px;
 }
 
-.markdown-body blockquote:before {
+article.post blockquote:before {
   font-style: italic;
   font-family: Georgia, serif;
   font-size: 90px;
@@ -513,7 +513,7 @@ footer .owner p a {
   float: left;
 }
 
-.markdown-body img {
+article.post img {
   max-width: 100%;
 }
 
