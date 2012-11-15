@@ -10,8 +10,8 @@ Here is how to get T4MVC to run every time you build, without the mark-as-dirty 
 
     These must be installed in order, and you should probably exit VS to do so:
 
-   1.  [Visual Studio SDK][1]
-   2.  [Visualization and Modeling SDK][2]
+    1.  [Visual Studio SDK][1]
+    2.  [Visualization and Modeling SDK][2]
 
 2.  **Start Visual Studio and open your project file for editing.**
 
