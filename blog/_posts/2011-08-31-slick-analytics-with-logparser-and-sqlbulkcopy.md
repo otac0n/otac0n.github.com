@@ -152,7 +152,7 @@ The code I use to do the import is fairly simple:
                 var name = reader.GetName(field);
                 importer.ColumnMappings.Add(name, name);
             }
-     
+
             importer.DestinationTableName = "#w3clog_staging";
             importer.WriteToServer(reader);
         }
