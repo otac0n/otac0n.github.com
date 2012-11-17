@@ -24,7 +24,9 @@ You have probably gone through these steps:
 
 We can’t use `runat="server"` on script tags, because ASP.NET has repurposed this format in order to include server-side code into the page.  This in effect means that we can’t use the “virtual path” to reference the same script from everywhere in our app.  Since we can’t use a virtual path, and we can’t use a relative path, we are stuck.
 
-Add on top of this that we often need to switch between different scripts for auto-completion, debugging, and production and you start to see the direness of the situation.</p>  <p>At the center of the issue is the fact that Visual Studio can’t execute code in the editor in order to “know” where a script will come from.  If it could, then we would just write a chunk of code to do the virtual path transformation based on current mode.  We would have minified scripts for production (by default), VSDoc scripts for IntelliSense (in design mode), and full source scripts for debugging (when DEBUG is defined or a debugger is attached).
+Add on top of this that we often need to switch between different scripts for auto-completion, debugging, and production and you start to see the direness of the situation.
+
+At the center of the issue is the fact that Visual Studio can’t execute code in the editor in order to “know” where a script will come from.  If it could, then we would just write a chunk of code to do the virtual path transformation based on current mode.  We would have minified scripts for production (by default), VSDoc scripts for IntelliSense (in design mode), and full source scripts for debugging (when DEBUG is defined or a debugger is attached).
 
 At this point, I used to conclude that I had to live with all of my .aspx files living in one folder, or I had to live without JavaScript IntelliSense.
 
