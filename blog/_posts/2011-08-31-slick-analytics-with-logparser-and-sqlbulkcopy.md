@@ -117,15 +117,24 @@ The little example above is fine-and-dandy for reading the data into memory, but
 
 To clear up any uncertainty, here is the order and nesting of the various operations that will need to take place for a successful, performant import:
 
-* Connect to the destination database 
-    * Begin a transaction 
+* Connect to the destination database
+
+    * Begin a transaction
+
         * Create a temporary “staging” table for the logs
-        * For each CSV file of interest: 
-            * Open a reader for the CSV file 
+
+        * For each CSV file of interest:
+
+            * Open a reader for the CSV file
+
                 * Bulk-import the data from the CSV file into the staging table
+
             * Close the CSV file
+
         * Merge the contents of the staging table into the main storage table
+
     * Commit the transaction
+
 * Disconnect from the destination database
 
 There are only two noteworthy bits: the bulk import itself and the merge operation.
@@ -134,20 +143,20 @@ There are only two noteworthy bits: the bulk import itself and the merge operati
 
 The code I use to do the import is fairly simple:
 
-  private static void BulkImport(IDataReader reader, SqlTransaction transaction)
-  {
-      using (var importer = new SqlBulkCopy(transaction.Connection, SqlBulkCopyOptions.Default, transaction))
-      {
-          for (int field = 0; field < reader.FieldCount; field++)
-          {
-              var name = reader.GetName(field);
-              importer.ColumnMappings.Add(name, name);
-          }
-   
-          importer.DestinationTableName = "#w3clog_staging";
-          importer.WriteToServer(reader);
-      }
-  }
+    private static void BulkImport(IDataReader reader, SqlTransaction transaction)
+    {
+        using (var importer = new SqlBulkCopy(transaction.Connection, SqlBulkCopyOptions.Default, transaction))
+        {
+            for (int field = 0; field < reader.FieldCount; field++)
+            {
+                var name = reader.GetName(field);
+                importer.ColumnMappings.Add(name, name);
+            }
+     
+            importer.DestinationTableName = "#w3clog_staging";
+            importer.WriteToServer(reader);
+        }
+    }
 
 Simple as it is, there is a lot that we can learn from this compact section of code:
 
@@ -265,6 +274,11 @@ Can we find out what bots are hitting the site?  Sure:
 Here are my results:
 
 <table>
+  <colgroup>
+    <col />
+    <col span="2" style="width: 120px" />
+  </colgroup>
+
   <thead>
     <tr>
       <th>User Agent</th>
