@@ -265,81 +265,83 @@ Can we find out what bots are hitting the site?  Sure:
 Here are my results:
 
 <table>
+  <thead>
+    <tr>
+      <th>User Agent</th>
+      <th>Hits</th>
+      <th>Distinct IPs</th>
+    </tr>
+  </thead>
+
   <tbody>
     <tr>
-      <td>User Agent</td>
-      <td>Hits</td>
-      <td>Distinct IPs</td>
-    </tr>
-
-    <tr>
-      <td>Mozilla/5.0+(compatible;+Yahoo!+Slurp;+http://help.yahoo.com/help/us/ysearch/slurp)</td>
+      <td>Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)</td>
       <td>71624</td>
       <td>112</td>
     </tr>
 
     <tr>
-      <td>Mozilla/5.0+(compatible;+Googlebot/2.1;++http://www.google.com/bot.html)</td>
+      <td>Mozilla/5.0 (compatible; Googlebot/2.1;  http://www.google.com/bot.html)</td>
       <td>60536</td>
       <td>441</td>
     </tr>
 
     <tr>
-      <td>Mozilla/5.0+(compatible;+bingbot/2.0;++http://www.bing.com/bingbot.htm)</td>
+      <td>Mozilla/5.0 (compatible; bingbot/2.0;  http://www.bing.com/bingbot.htm)</td>
       <td>32636</td>
       <td>329</td>
     </tr>
 
     <tr>
-      <td>Mozilla/5.0+(compatible;+Baiduspider/2.0;++http://www.baidu.com/search/spider.html)</td>
+      <td>Mozilla/5.0 (compatible; Baiduspider/2.0;  http://www.baidu.com/search/spider.html)</td>
       <td>23749</td>
       <td>225</td>
     </tr>
 
     <tr>
-      <td>Mozilla/5.0+(compatible;+YandexBot/3.0;++http://yandex.com/bots)</td>
+      <td>Mozilla/5.0 (compatible; YandexBot/3.0;  http://yandex.com/bots)</td>
       <td>16696</td>
       <td>7</td>
     </tr>
 
     <tr>
-      <td>webnumbrFetcher/1.0+(http://webnumbr.com/)</td>
+      <td>webnumbrFetcher/1.0 (http://webnumbr.com/)</td>
       <td>16551</td>
       <td>1</td>
     </tr>
 
     <tr>
-      <td>Mozilla/5.0+(compatible;+DotBot/1.1;+http://www.dotnetdotcom.org/,+crawler@dotnetdotcom.org)</td>
+      <td>Mozilla/5.0 (compatible; DotBot/1.1; http://www.dotnetdotcom.org/, crawler@dotnetdotcom.org)</td>
       <td>14147</td>
       <td>5</td>
     </tr>
 
     <tr>
-      <td>Mozilla/5.0+(compatible;+Yahoo!+Slurp/3.0;+http://help.yahoo.com/help/us/ysearch/slurp)</td>
+      <td>Mozilla/5.0 (compatible; Yahoo! Slurp/3.0; http://help.yahoo.com/help/us/ysearch/slurp)</td>
       <td>13892</td>
       <td>61</td>
     </tr>
 
     <tr>
-      <td>Baiduspider+(+http://www.baidu.com/search/spider.htm)</td>
+      <td>Baiduspider ( http://www.baidu.com/search/spider.htm)</td>
       <td>10445</td>
       <td>550</td>
     </tr>
 
     <tr>
-      <td>Sosospider+(+http://help.soso.com/webspider.htm)</td>
+      <td>Sosospider ( http://help.soso.com/webspider.htm)</td>
       <td>8280</td>
       <td>76</td>
     </tr>
 
     <tr>
-      <td>Mozilla/5.0+(compatible;+SiteBot/0.1;++http://www.sitebot.org/robot/)</td>
+      <td>Mozilla/5.0 (compatible; SiteBot/0.1;  http://www.sitebot.org/robot/)</td>
       <td>7614</td>
       <td>5</td>
     </tr>
 
     <tr>
-      <td>Mozilla/5.0+(compatible;+MJ12bot/v1.3.3;+http://www.majestic12.co.uk/bot.php?+)</td>
+      <td>Mozilla/5.0 (compatible; MJ12bot/v1.3.3; http://www.majestic12.co.uk/bot.php? )</td>
       <td>7085</td>
       <td>241</td>
     </tr>
