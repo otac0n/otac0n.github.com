@@ -118,23 +118,14 @@ The little example above is fine-and-dandy for reading the data into memory, but
 To clear up any uncertainty, here is the order and nesting of the various operations that will need to take place for a successful, performant import:
 
 * Connect to the destination database
-
     * Begin a transaction
-
         * Create a temporary “staging” table for the logs
-
         * For each CSV file of interest:
-
             * Open a reader for the CSV file
-
                 * Bulk-import the data from the CSV file into the staging table
-
             * Close the CSV file
-
         * Merge the contents of the staging table into the main storage table
-
     * Commit the transaction
-
 * Disconnect from the destination database
 
 There are only two noteworthy bits: the bulk import itself and the merge operation.
@@ -219,15 +210,15 @@ This uses the SQL Server Window Function `ROW_NUMBER()` to determine individual 
 
 The final action is to move the data into the main table:
 
-  INSERT INTO
-      [w3clog]
-      (
-          [LogFilename], [LogRow], [date], …
-      )
-  SELECT
-      [LogFilename], [LogRow], [date], …
-  FROM
-      [#w3clog_staging]
+    INSERT INTO
+        [w3clog]
+        (
+            [LogFilename], [LogRow], [date], …
+        )
+    SELECT
+        [LogFilename], [LogRow], [date], …
+    FROM
+        [#w3clog_staging]
 
 Done! Now our whole import process is complete. Let’s see if we can turn this into pretty graphs…
 

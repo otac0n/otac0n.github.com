@@ -359,6 +359,13 @@ article.post blockquote {
   margin-bottom: 20px;
 }
 
+article.post ul ul,
+article.post ol ul,
+article.post ul ol,
+article.post ol ol {
+  margin-bottom: 0px;
+}
+
 article.post h1,
 article.post h2,
 article.post h3,
@@ -423,9 +430,7 @@ article.post ul {
   list-style-type: disc;
 }
 
-article.post li,
 article.post li p,
-article.post dd,
 article.post dd p {
   margin-bottom: 10px;
 }
