@@ -170,7 +170,7 @@ Content-Range: users 50-59/200
 
 --next--</code></pre>
 
-The `Range` header style allows for requests that specify multiple ranges and HTTP supports sending these back as a multipart docuemnt.
+The `Range` header style allows for requests that specify multiple ranges; HTTP supports sending results back as a multipart docuemnt.
 
 ## Conclustion ##
 
