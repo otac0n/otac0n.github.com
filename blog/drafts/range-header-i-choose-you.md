@@ -25,30 +25,21 @@ Let's evaluate its behavior in contrast to OData-style pagination.
 
 **OData-style**
 
-Request
+<pre><code>GET /users</code></pre>
 
-    GET /users
+<pre><code>200 OK
 
-Response
-
-    200 OK
-
-    [ 0..9 ]
+[ 0..9 ]</code></pre>
 
 **Range-header-style**
 
-Request
+<pre><code>GET /users</code></pre>
 
-    GET /users
+<pre><code>200 OK
+Accept-Ranges: users
+Content-Range: users 0-9/200
 
-Response
-
-    200 OK
-    Accept-Ranges: users
-    Content-Range: users 0-9/200
-
-    [ 0..9 ]
-
+[ 0..9 ]</code></pre>
 
 **Comparison**
 
@@ -62,33 +53,23 @@ The OData-style, in contrast, will not automatically include the count of the co
 
 **OData-style**
 
-Request
+<pre><code>GET /users?$skip=0&$top=10&$inlinecount=allpages</code></pre>
 
-    GET /users?$skip=0&$top=10&$inlinecount=allpages
+<pre><code>200 OK
+X-Some-Sidechannel: count=200
 
-Response
-
-    200 OK
-    X-Some-Sidechannel: count=200
-
-    [ 0..19 ]
-
+[ 0..19 ]</code></pre>
 
 **Range-header-style**
 
-Request
+<pre><code>GET /users
+Range: users=10-19</code></pre>
 
-    GET /users
-    Range: users=10-19
+<pre><code>209 Partial Content
+Accept-Ranges: users
+Content-Range: users 10-19/200
 
-Response
-
-    209 Partial Content
-    Accept-Ranges: users
-    Content-Range: users 10-19/200
-
-    [ 10..19 ]
-
+[ 10..19 ]</code></pre>
 
 **Comparison**
 
@@ -111,29 +92,21 @@ Both systems perform roughly the same for pages in the middle of the collection.
 
 **OData-style**
 
-Request
+<pre><code>GET /users?$skip=1000</code></pre>
 
-    GET /users?$skip=1000
+<pre><code>200 OK
 
-Response
-
-    200 OK
-
-    []
+[]</code></pre>
 
 
 **Range-header-style**
 
-Request
-
-    GET /users
-    Range: users=1000-
+<pre><code>GET /users
+Range: users=1000-</code></pre>
 
 *Notice that the unbounded range mimmicks the semantics of the OData-style request.*
 
-Response
-
-    416 Requested Range Not Satisfiable
+<pre><code>416 Requested Range Not Satisfiable</code></pre>
 
 
 **Comparison**
@@ -153,58 +126,46 @@ Here are some things that the `Range` header supports that have no analog in the
 
 **Discoverability**
 
-Request
+<pre><code>OPTION /users</code></pre>
 
-    OPTION /users
-
-Response
-
-    200 OK
-    Accept-Ranges: users
+<pre><code>200 OK
+Accept-Ranges: users</code></pre>
 
 The Range header style allows for discovery of acceptable ranges via the OPTIONS HTTP verb.
 
 ***Last-n* requests**
 
-Request
+<pre><code>GET /users
+Ranges: users=-5</code></pre>
 
-    GET /users
-    Ranges: users=-5
+<pre><code>206 Partial Content
+Accept-Ranges: users
+Content-Range: users 196-200/200
 
-Response
-
-    206 Partial Content
-    Accept-Ranges: users
-    Content-Range: users 196-200/200
-
-    [ 196..200 ]
+[ 196..200 ]</code></pre>
 
 The Range header style allows for requests rooted at the end of the entity, rather than the begining.
 
 **Multipart ranges**
 
-Request
+<pre><code>GET /users
+Ranges: users=0-9,50-59</code></pre>
 
-    GET /users
-    Ranges: users=0-9,50-59
+<pre><code>206 Partial Content
+Accept-Ranges: users
+Content-Type: multipart/mixed; boundary=next
 
-Response
+--next
+Content-Range: users 0-9/200
 
-    206 Partial Content
-    Accept-Ranges: users
-    Content-Type: multipart/mixed; boundary=next
+[ 0..9 ]
 
-    --next
-    Content-Range: users 0-9/200
+--next
+Content-Range: users 50-59/200
 
-    [ 0..9 ]
+[ 50..59 ]
 
-    --next
-    Content-Range: users 50-59/200
-
-    [ 50..59 ]
-
-    --next--
+--next--</code></pre>
 
 The `Range` header style allows for requests that specify multiple ranges and HTTP supports sending these back as a multipart docuemnt.
 
