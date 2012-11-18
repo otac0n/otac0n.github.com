@@ -487,6 +487,10 @@ article.post blockquote {
   padding-left: 50px;
 }
 
+article.post blockquote p:last-child {
+  margin-bottom: 0;
+}
+
 article.post blockquote:before {
   font-style: italic;
   font-family: Georgia, serif;
