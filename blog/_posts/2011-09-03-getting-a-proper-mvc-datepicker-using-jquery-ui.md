@@ -39,7 +39,7 @@ We need to use a regular HTML text box for our date picker for two reasons:
 
 We chose to use a dynamic partial view, so that we could round-trip textual data, above, so the simplest way to get the editor working is this, placed in the DateTime.cshtml file:
 
-
+    language: cshtml
     @model DateTime?
     @Html.TextBox("", Model)
 
@@ -47,6 +47,7 @@ Interestingly, we are passing an empty string in for the "name" parameter for th
 
 We may, however, want dates to be shown without their time component. To do that, we need to override the default formatting to our liking:
 
+    language: cshtml
     @model DateTime?
     @Html.TextBox("", Model.HasValue ? Model.Value.ToString("d MMM yyyy") : "")
 
@@ -60,6 +61,7 @@ With that in mind, my preference is to have a self-contained script for creating
 
 Luckily, MVC allows us access to the field name using the `Html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName` method.  This is, in fact, the way that MVC assigns the name and ID to the text box.  However, there is no built-in way to turn that name into an ID.  A quick perusal of the MVC source code shows that the ID is a simple text replacement.  We can precisely emulate their text replacement with a regular expression replacement.  Here is the completed control:
 
+    language: cshtml
     @model DateTime?
     @{
         var name = Html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty);

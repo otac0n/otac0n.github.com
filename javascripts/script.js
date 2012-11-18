@@ -1,5 +1,12 @@
 $(function(){
-  $('pre').addClass('prettyprint');
+  $('pre').addClass('prettyprint').find('code').each(function () {
+    var $this = $(this);
+    var text = $this.text();
+    var match = /^language: ([-\w]+)(\r\n?|\n)/.exec(text);
+    if (match) {
+      $this.addClass('lang-' + match[1]).text(text.substring(match[0].length));
+    }
+  });
   prettyPrint();
 
   var headings = [];

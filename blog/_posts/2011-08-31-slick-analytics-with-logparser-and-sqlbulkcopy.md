@@ -22,10 +22,12 @@ So, what is the secret sauce?  Well, SQL Server’s ADO.NET provider exposes the
 
 First, let’s get Log Parser humming.  Microsoft’s Log Parser accepts SQL-like commands from the command line, and, depending on the particular command, can output to a variety of text formats, execute SQL statements, or create images.  Here is an example of the type of SQL Statement we are looking for:
 
+    language: sql
     SELECT * INTO log1.csv FROM C:\WINDOWS\system32\LogFiles\W3SVC1\ex110101.log
 
 However, as you may be able to tell from the file path, we need to parameterize the source for different IIS sites (e.g. W3SVC9999) and dates (e.g. ex110228.log).  Here is an example command script that can take care of those variables:
 
+    language: batch
     @echo off
     set logparser="C:\Program Files\Log Parser 2.2\LogParser.exe"
 
@@ -44,6 +46,7 @@ We need a place to shove that data, but we have two masters to server at this po
 
 So, we will need two (very similar) tables during our import process: the staging table, and the main storage table.  The main storage table should match the W3C Log format, like so:
 
+    language: sql
     CREATE TABLE [dbo].[w3clog]
     (
         [RowId] bigint IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -98,12 +101,14 @@ Our importer needs to be able to read the CSV files, and spit the data into SQL 
 
 Next, we will use an ODBC connection for the CSV files:
 
+    language: text
     Driver={Microsoft Text Driver (*.txt; *.csv)};Dbq=.;Extensions=csv
 
 ![SqlBulkCopy - 2 - CSV Connection][7]
 
 Using the Microsoft Text Driver, it is possible to read CSV files like this:
 
+    language: csharp
     var table = new DataTable();
     using (var connection = new OdbcConnection(Settings.Default.ImportDriver))
     {
@@ -134,6 +139,7 @@ There are only two noteworthy bits: the bulk import itself and the merge operati
 
 The code I use to do the import is fairly simple:
 
+    language: csharp
     private static void BulkImport(IDataReader reader, SqlTransaction transaction)
     {
         using (var importer = new SqlBulkCopy(transaction.Connection, SqlBulkCopyOptions.Default, transaction))
@@ -166,6 +172,7 @@ We will be aiming for a set-based approach, utilizing joins to do most of the he
 
 First, to delete entries that already exist in the main table, we issue a command like this:
 
+    language: sql
     DELETE
         s
     FROM
@@ -179,6 +186,7 @@ First, to delete entries that already exist in the main table, we issue a comman
 
 Simple stuff really, but to help it out, we will probably want a unique index on the main table: (this only needs to be done once)
 
+    language: sql
     CREATE UNIQUE NONCLUSTERED INDEX [UK_w3clog_LogRow] ON dbo.[w3clog] 
     (
         [LogFilename] ASC,
@@ -187,6 +195,7 @@ Simple stuff really, but to help it out, we will probably want a unique index on
 
 Next we need to delete duplicate entries that may have crept into the staging table:
 
+    language: sql
     DELETE FROM
         [#w3clog_staging]
     WHERE
@@ -210,6 +219,7 @@ This uses the SQL Server Window Function `ROW_NUMBER()` to determine individual 
 
 The final action is to move the data into the main table:
 
+    language: sql
     INSERT INTO
         [w3clog]
         (
@@ -228,6 +238,7 @@ Let’s get a simple graph showing the last 3 day’s hits, upload, and download
 
 First, the query:
 
+    language: sql
     SELECT
         DATEPART(hour, [time]),
         COUNT(*) [hits],
@@ -248,6 +259,7 @@ So, here is how my server’s graph looks: (in Excel, since I’m using SQL Expr
 
 Can we find out what bots are hitting the site?  Sure:
 
+    language: sql
     SELECT
         [cs(User-Agent)],
         COUNT(*) [hits],

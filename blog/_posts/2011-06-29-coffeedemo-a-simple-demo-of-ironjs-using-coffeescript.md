@@ -18,6 +18,7 @@ Create a new Windows Application and name it 'CoffeeDemo'.
 
 For those of you experienced with NuGet, the command in the Package Manager Console is:
 
+    language: power-shell
     Install-Package IronJS
 
 If you prefer to use the GUI to add your package, you can [consult the GUI directions][2] provided at NuGet.org
@@ -43,6 +44,7 @@ Name your controls `CoffeeScriptBox`,  `JavaScriptBox`, and `ExecuteButton`.
 
 In the code for our view, we need to create an IronJS context, to do all of the heavy lifting behind the scenes.  We will do this with a function `InitializeContext`, called from the constructor:
 
+    language: csharp
     using System;
     using System.Windows.Forms;
     using IronJS;
@@ -76,6 +78,7 @@ Here, we can see the basics of creating a contexts, as well as exposing a CLR fu
 
 Just wire up the Click even of the execute button to a function like this,
 
+    language: csharp
     private void ExecuteButton_Click(object sender, EventArgs e)
     {
         try
@@ -97,6 +100,7 @@ There are a couple of different methods that we could use to bring CoffeeScript 
 
 My preference for this demo, however, is to download CoffeeScript to the /bin directory on the first run of the app.
 
+    language: csharp
     …
     using System.IO;
     using System.Net;
@@ -129,12 +133,14 @@ At this point CoffeeScript is ready to go, and can be tested in the JavaScript t
 
 Try this for an example:
 
+    language: javascript
     alert(CoffeeScript.compile('a = (x) -> x * x', { bare: true }));
 
 ## Wire-up the TextChanged event for live updating. ##
 
 Add a field of type FunctionObject to the view’s class, and add this function as the TextChanged event on the CoffeeScript text box:
 
+    language: csharp
     private FunctionObject compile;
     …
     private void CoffeeScriptBox_TextChanged(object sender, EventArgs e)

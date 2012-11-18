@@ -18,10 +18,12 @@ And we know that we don’t want to render it to the final output, so we have to
 
 My first attempt at solving this was to put this into the _Layout.cshtml page:
 
+    language: cshtml
     @{RenderSection("intellisense", required: false);}
 
 But that was not enough to trick the view engine. Apparently, you have to actually *render* the section *somewhere* in order for it to be considered "rendered. Luckily, we can just render it to a throw-away StringWriter, like so:
 
+    language: cshtml
     @{WriteTo(new StringWriter(), RenderSection("intellisense", required: false));}
 
 That is *just enough* to get it to work properly and display the IntelliSense as desired.

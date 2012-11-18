@@ -21,6 +21,7 @@ Here is how to get T4MVC to run every time you build, without the mark-as-dirty 
 
     Set the following properties in your project:
 
+        language: xml
         <MvcBuildViews>true</MvcBuildViews>
         <TransformOnBuild>true</TransformOnBuild>
 
@@ -29,6 +30,7 @@ Here is how to get T4MVC to run every time you build, without the mark-as-dirty 
 
     Add the toolkit magic as an MSBuild import:
 
+        language: xml
         <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\TextTemplating\v10.0\Microsoft.TextTemplating.targets" />
 
     Again, here is a visual of the result:  

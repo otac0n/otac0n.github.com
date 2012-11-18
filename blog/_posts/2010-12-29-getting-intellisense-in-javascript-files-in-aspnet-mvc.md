@@ -36,14 +36,16 @@ The little bit of magic required to make everything work in our favor is the fac
 
 Take these lines for example:
 
+    language: html
     <% if (false) { %>
         Test
-    <%< } %>
+    <% } %>
 
 After being transformed by ASP.NET into a pure C# listing, this code will be compiled into an assembly.  Since the code is unreachable, it will be ignored and will not be checked for definite assignment as per the C# spec (§5.3.3.1).
 
 Extending this idea a little bit further, we can add our long-sought-after IntelliSense:
 
+    language: html
     <% if (false) { %>
         <script src="../../Scripts/jquery-1.4.1-vsdoc.js" type="text/javascript"></script>
     <% } %>
@@ -52,6 +54,7 @@ We can use the relative path here, since this will never make it across the wire
 
 Now, for the real script tag, we can use the static functions that ASP.NET provides to emit the proper path:
 
+    language: html
     <script src="<%: Url.Content("~/Scripts/jquery-1.4.1-vsdoc.js") %>" type="text/javascript"></script>
 
 For ASP.NET WebForms, you would use the Server.ApplyAppPathModifier() function in place of Url.Content().
