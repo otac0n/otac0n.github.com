@@ -1,0 +1,92 @@
+.pln {
+    color:#eee
+}
+
+@media screen {
+    .str {
+        color:#7f7
+    }
+
+    .kwd {
+        color:#77f
+    }
+
+    .com {
+        color:#f77
+    }
+
+    .typ {
+        color:#f9f
+    }
+
+    .lit {
+        color:#9ff
+    }
+
+    .pun,
+    .opn,
+    .clo {
+        color:#ff9
+    }
+
+    .tag {
+        color:#77f
+    }
+
+    .atn {
+        color:#f9f
+    }
+
+    .atv {
+        color:#7f7
+    }
+
+    .dec,
+    .var {
+        color:#f9f
+    }
+
+    .fun {
+        color:#f88
+    }
+}
+
+@media print, projection {
+    .str {
+        color:#060
+    }
+
+    .kwd {
+        color:#006;font-weight:bold
+    }
+
+    .com {
+        color:#600;font-style:italic
+    }
+
+    .typ {
+        color:#404;font-weight:bold
+    }
+
+    .lit {
+        color:#044
+    }
+
+    .pun,
+    .opn,
+    .clo {
+        color:#440
+    }
+
+    .tag {
+        color:#006;font-weight:bold
+    }
+
+    .atn {
+        color:#404
+    }
+
+    .atv {
+        color:#060
+    }
+}
