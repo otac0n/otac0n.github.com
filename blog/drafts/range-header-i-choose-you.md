@@ -21,6 +21,9 @@ So, from the spec, it looks like the `Range` header was designed specifically to
 
 Let's evaluate its behavior in contrast to OData-style pagination.
 
+*One thing to note:  
+These examples contain partial HTTP requests.  Common elements between the OData and Ranger header styles have been factored out.  These include the http version; the `Host`, `Accept`, `Content-Type`, and `Content-Length` headers; and the data itself.*
+
 ### Querying the root of the collection. ###
 
 **OData-style**
