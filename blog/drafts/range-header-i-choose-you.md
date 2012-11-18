@@ -54,7 +54,7 @@ Response
 
 Both of these have defaults for what the user is allowed to request (limited to 10), but the `Range` header style would automatically send back the count, without $inlinecount being specified.  You would simply need to know where to look. The `Accept-Ranges` header signals that the `users` range is accepted for range requests and implies that a `Content-Ranes` may be present.
 
-Importantly, the response code for the `Range` header style is `200` rather than `206` because the request was missing the `Range` header itself.  `Accept-Ranges` and `Content-Range` headers are still allowed in the response, keeping it semantically correct.
+Importantly, the response code for the `Range` header style is `200` (rather than `206` as you might expect) because the request was missing the `Range` header itself.  `Accept-Ranges` and `Content-Range` headers are still allowed in the response, keeping it semantically correct.
 
 The OData-style, in contrast, will not automatically include the count of the collection in the response.  Even if this response were to include the count, unsolicited, there is still no easy way to find out how this data is sent.
 
@@ -83,7 +83,7 @@ Request
 
 Response
 
-    209 Partial Content
+    206 Partial Content
     Accept-Ranges: users
     Content-Range: users 10-19/200
 
@@ -92,7 +92,7 @@ Response
 
 **Comparison**
 
-Since the request was made with a Range header, the right side is allowed to respond with a `209 Partial Content` response code, indicating the presence of the Content-Range response header.
+Since the request was made with a Range header, the right side is allowed to respond with a `206 Partial Content` response code, indicating the presence of the Content-Range response header.
 
 OData had to specify the `$inlinecount=allpages` parameter in order to get the full length of the filtered collection, bloating the URL.
 
