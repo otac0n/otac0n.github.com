@@ -46,7 +46,7 @@ Response
     200 OK
     Accept-Ranges: users
     Content-Range: users 0-9/200
-    
+
     [ 0..9 ]
 
 
@@ -70,7 +70,7 @@ Response
 
     200 OK
     X-Some-Sidechannel: count=200
-    
+
     [ 0..19 ]
 
 
@@ -86,7 +86,7 @@ Response
     209 Partial Content
     Accept-Ranges: users
     Content-Range: users 10-19/200
-    
+
     [ 10..19 ]
 
 
@@ -176,7 +176,7 @@ Response
     206 Partial Content
     Accept-Ranges: users
     Content-Range: users 196-200/200
-    
+
     [ 196..200 ]
 
 The Range header style allows for requests rooted at the end of the entity, rather than the begining.
