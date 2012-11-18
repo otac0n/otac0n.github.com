@@ -4,5 +4,6 @@ tagline: 'I''m just some guy, you know?'
 author_name: John Gietzen
 author_email: otac0n@gietzen.us
 
+future: false
 markdown: rdiscount
 exclude: run.cmd
