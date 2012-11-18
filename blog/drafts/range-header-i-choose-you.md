@@ -28,17 +28,21 @@ These examples contain partial HTTP requests.  Common elements between the OData
 
 **OData-style**
 
-<pre><code>GET /users</code></pre>
+<pre><code>language: http
+GET /users</code></pre>
 
-<pre><code>200 OK
+<pre><code>language: http
+200 OK
 
 [ 0..9 ]</code></pre>
 
 **Range-header-style**
 
-<pre><code>GET /users</code></pre>
+<pre><code>language: http
+GET /users</code></pre>
 
-<pre><code>200 OK
+<pre><code>language: http
+200 OK
 Accept-Ranges: users
 Content-Range: users 0-9/200
 
@@ -56,19 +60,23 @@ The OData-style, in contrast, will not automatically include the count of the co
 
 **OData-style**
 
-<pre><code>GET /users?$skip=0&$top=10&$inlinecount=allpages</code></pre>
+<pre><code>language: http
+GET /users?$skip=0&$top=10&$inlinecount=allpages</code></pre>
 
-<pre><code>200 OK
+<pre><code>language: http
+200 OK
 X-Some-Sidechannel: count=200
 
 [ 0..19 ]</code></pre>
 
 **Range-header-style**
 
-<pre><code>GET /users
+<pre><code>language: http
+GET /users
 Range: users=10-19</code></pre>
 
-<pre><code>206 Partial Content
+<pre><code>language: http
+206 Partial Content
 Accept-Ranges: users
 Content-Range: users 10-19/200
 
@@ -82,6 +90,7 @@ OData had to specify the `$inlinecount=allpages` parameter in order to get the f
 
 Additionally, the Range header style is allowed to return a Content-Range response looking something like this:
 
+    language: http
     Content-Range: 200-250/*
 
 This indicates that the full count is not included, possibly because it is too expensive to calculate.  This is often the case for complex queries.  This flexibility allows the server to chose whether or not to calculate the total length, based on the particular query at hand. In the OData version, however, the `$inlinecount` parameter is a command to get the count.  The server is not free to withold the count when it is expensive or difficult to obtain.
@@ -95,21 +104,25 @@ Both systems perform roughly the same for pages in the middle of the collection.
 
 **OData-style**
 
-<pre><code>GET /users?$skip=1000</code></pre>
+<pre><code>language: http
+GET /users?$skip=1000</code></pre>
 
-<pre><code>200 OK
+<pre><code>language: http
+200 OK
 
 []</code></pre>
 
 
 **Range-header-style**
 
-<pre><code>GET /users
+<pre><code>language: http
+GET /users
 Range: users=1000-</code></pre>
 
 *Notice that the unbounded range mimmicks the semantics of the OData-style request.*
 
-<pre><code>416 Requested Range Not Satisfiable</code></pre>
+<pre><code>language: http
+416 Requested Range Not Satisfiable</code></pre>
 
 
 **Comparison**
@@ -129,19 +142,23 @@ Here are some things that the `Range` header supports that have no analog in the
 
 **Discoverability**
 
-<pre><code>OPTION /users</code></pre>
+<pre><code>language: http
+OPTION /users</code></pre>
 
-<pre><code>200 OK
+<pre><code>language: http
+200 OK
 Accept-Ranges: users</code></pre>
 
 The Range header style allows for discovery of acceptable ranges via the OPTIONS HTTP verb.
 
 ***Last-n* requests**
 
-<pre><code>GET /users
+<pre><code>language: http
+GET /users
 Ranges: users=-5</code></pre>
 
-<pre><code>206 Partial Content
+<pre><code>language: http
+206 Partial Content
 Accept-Ranges: users
 Content-Range: users 196-200/200
 
@@ -151,10 +168,12 @@ The Range header style allows for requests rooted at the end of the entity, rath
 
 **Multipart ranges**
 
-<pre><code>GET /users
+<pre><code>language: http
+GET /users
 Ranges: users=0-9,50-59</code></pre>
 
-<pre><code>206 Partial Content
+<pre><code>language: http
+206 Partial Content
 Accept-Ranges: users
 Content-Type: multipart/mixed; boundary=next
 
