@@ -5,3 +5,4 @@ author_name: John Gietzen
 author_email: otac0n@gietzen.us
 
 markdown: rdiscount
+exclude: run.cmd
