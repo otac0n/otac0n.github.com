@@ -266,8 +266,8 @@ Here are my results:
 
 <table>
   <colgroup>
-    <col />
-    <col span="2" style="width: 120px" />
+     <col span="1" style="width: 58%;">
+     <col span="2" style="width: 16%;">
   </colgroup>
 
   <thead>
