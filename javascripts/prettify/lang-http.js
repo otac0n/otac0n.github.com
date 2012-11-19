@@ -130,7 +130,7 @@
                         var bMatch = /^([\S\s]*?boundary=")([^"\r\n]+)("[\S\s]*)$|^([\S\s]*?boundary=)([^"\s,]+)([\S\s]*)$/.exec(contentType);
                         if (bMatch) {
                             lang = 'http';
-                            boundary = bMatch[2];
+                            boundary = bMatch[2] || bMatch[5];
                             push(bMatch[1], 'PR_STRING');
                             push(bMatch[2], 'PR_KEYWORD');
                             push(bMatch[3], 'PR_STRING');
