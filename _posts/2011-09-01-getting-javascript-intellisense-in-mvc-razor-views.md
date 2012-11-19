@@ -1,6 +1,12 @@
 ---
 layout: post
 title: Getting JavaScript IntelliSense in MVC Razor Views
+categories:
+    - asp.net
+    - asp.net-mvc
+    - razor
+    - javascript
+    - visual-studio
 ---
 A while ago, I posted about Getting IntelliSense working in ASP.NET MVC 3.  Since the release MVC 3, the primary view engine has changed to Razor, and the previous technique isn’t as elegant.
 

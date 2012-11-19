@@ -1,6 +1,11 @@
 ---
 layout: post
 title: Getting a Proper MVC Date-picker using jQuery UI
+categories:
+    - asp.net
+    - asp.net-mvc
+    - razor
+    - javascript
 ---
 There are plenty of tutorials out there on how to get date-pickers to work in MVC, but most of them that I have seen fall short for some reason or another.  Here are my requirements for a "proper" date-picker in MVC:
 
