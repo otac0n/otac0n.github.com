@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Getting JavaScript IntelliSense in MVC Razor Views
-categories:
+tags:
     - asp.net
     - asp.net-mvc
     - razor

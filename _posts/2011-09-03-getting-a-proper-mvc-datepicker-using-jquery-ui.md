@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Getting a Proper MVC Date-picker using jQuery UI
-categories:
+tags:
     - asp.net
     - asp.net-mvc
     - razor

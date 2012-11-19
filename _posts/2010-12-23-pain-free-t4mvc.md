@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Pain Free T4MVC
-categories:
+tags:
     - asp.net
     - asp.net-mvc
     - msbuild

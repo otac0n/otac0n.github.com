@@ -1,7 +1,7 @@
 ---
 layout: post
 title: CoffeeDemo – A Simple Demo of IronJS, using CoffeeScript
-categories:
+tags:
     - dlr
     - ironjs
     - javascript
