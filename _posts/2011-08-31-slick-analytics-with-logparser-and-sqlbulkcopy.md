@@ -1,6 +1,9 @@
 ---
 layout: post
 title: Slick Analytics with LogParser and SqlBulkCopy
+categories:
+    - iis
+    - sql
 ---
 ## Slick Analytics ##
 

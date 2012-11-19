@@ -1,6 +1,10 @@
 ---
 layout: post
 title: CoffeeDemo – A Simple Demo of IronJS, using CoffeeScript
+categories:
+    - dlr
+    - ironjs
+    - javascript
 ---
 > Warning: the APIs used in this demo are subject to improvement in the future.  This is just a demo to get your feet wet with the 0.2.0.1 release of IronJS.  IronJS is still in the early stages, so your mileage may vary.
 

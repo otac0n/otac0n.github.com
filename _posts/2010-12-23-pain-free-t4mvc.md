@@ -1,6 +1,12 @@
 ---
 layout: post
 title: Pain Free T4MVC
+categories:
+    - asp.net
+    - asp.net-mvc
+    - msbuild
+    - t4
+    - visual-studio
 ---
 Here is how to get T4MVC to run every time you build, without the mark-as-dirty hack or any Visual Studio support:
 

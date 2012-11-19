@@ -1,6 +1,12 @@
 ---
 layout: post
 title: Getting IntelliSense in JavaScript files in ASP.NET MVC
+categories:
+    - asp.net
+    - asp.net-mvc
+    - asp.net-webforms
+    - javascript
+    - visual-studio
 ---
 ## The Problem ##
 
