@@ -95,7 +95,7 @@
 
         var requestLine = /^(([A-Z]+)(\s+))([^\r\n]+?)((\s+)(HTTP\/\d+\.\d+))?(\r?\n|$)/;
         var statusLine = /^((HTTP\/\d+\.\d+)(\s+))?(\d+)(\s*)([^\r\n]*)(\r?\n|$)/;
-        var headerLine = /(([-\w]+)(:)(\s*)|([^\S\r\n]+))([^\r\n]*)(\r?\n|$)/g;
+        var headerLine = /(([-\w]+)(:)(\s*)|([^\S\r\n]+))((\r?\n |[^\r\n])*)(\r?\n|$)/g;
         var blankLine = /(\r?\n|$)/g;
 
         var req, sts;
@@ -126,14 +126,17 @@
                 contentType = hed[6];
                 simpleType = contentType.split(';')[0].trim().toLowerCase();
                 if (simpleType) {
-                    if (simpleType == 'multipart/mixed') {
-                        lang = 'http';
-                        var bMatch = /(.*?boundary=)([^\s,]+)(.*)/.exec(contentType);
+                    if (simpleType.lastIndexOf('multipart/') == 0) {
+                        var bMatch = /^([\S\s]*?boundary=")([^"\r\n]+)("[\S\s]*)$|^([\S\s]*?boundary=)([^"\s,]+)([\S\s]*)$/.exec(contentType);
                         if (bMatch) {
+                            lang = 'http';
                             boundary = bMatch[2];
                             push(bMatch[1], 'PR_STRING');
                             push(bMatch[2], 'PR_KEYWORD');
                             push(bMatch[3], 'PR_STRING');
+                            push(bMatch[4], 'PR_STRING');
+                            push(bMatch[5], 'PR_KEYWORD');
+                            push(bMatch[6], 'PR_STRING');
                             hed[6] = undefined;
                         }
                     } else {
@@ -142,7 +145,7 @@
                 }
             }
             push(hed[6], 'PR_STRING');
-            push(hed[7], 'PR_PLAIN');
+            push(hed[8], 'PR_PLAIN');
         }
 
         blankLine.lastIndex = i;
@@ -178,7 +181,7 @@
                 }
 
                 if (i < s.length - 1) {
-                    result.push(i)
+                    result.push(job.basePos + i);
                     result.push(PR['PR_PLAIN']);
                 }
             } else {
