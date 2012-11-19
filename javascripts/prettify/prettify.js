@@ -1458,6 +1458,7 @@ var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|\\!|\\!=|\\!==|\\#|\\%|\\%=|&|&&|&
     */
   window['PR'] = {
         'createSimpleLexer': createSimpleLexer,
+        'langHandlerForExtension': langHandlerForExtension,
         'registerLangHandler': registerLangHandler,
         'sourceDecorator': sourceDecorator,
         'PR_ATTRIB_NAME': PR_ATTRIB_NAME,
