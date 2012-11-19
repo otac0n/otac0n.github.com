@@ -199,5 +199,5 @@
         }
 
         job.decorations = result;
-    }, ['http']);
+    }, ['http', 'msg']);
 })();
