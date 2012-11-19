@@ -10,9 +10,11 @@
 
     var addLang = function (lang, f) {
         f = f || lang;
+        langs.push([ 'text/' + f, lang ]);
         langs.push([ 'text/x-' + f, lang ]);
         langs.push([ 'text/x-' + f + '-src', lang ]);
         langs.push([ 'text/x-' + f + '-source', lang ]);
+        langs.push([ 'application/' + f, lang ]);
         langs.push([ 'application/x-' + f, lang ]);
         langs.push([ 'application/x-' + f + '-src', lang ]);
         langs.push([ 'application/x-' + f + '-source', lang ]);
@@ -32,11 +34,9 @@
     addType('html', 'text/html');
     addType('html', 'application/xhtml+xml');
     addLang('java');
-    addType('js', 'text/javascript');
-    addType('js', 'text/ecmascript');
-    addType('js', 'application/javascript');
-    addType('js', 'application/x-javascript');
-    addType('js', 'application/ecmascript');
+    addLang('js', 'javascript');
+    addLang('js', 'ecmascript');
+    addLang('json');
     addType('latex', 'text/x-latex');
     addType('latex', 'application/x-latex');
     addType('make', 'text/x-makefile');
@@ -77,9 +77,13 @@
         };
     };
 
+    var regExpEscape = function(text) {
+        return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+    };
+
     PR['registerLangHandler'](function (job) {
         var s = job.sourceCode;
-        result = [];
+        var result = [];
         var i = 0;
         var push = function (v, t) {
             if (v && v.length) {
@@ -92,6 +96,7 @@
         var requestLine = /^(([A-Z]+)(\s+))([^\r\n]+?)((\s+)(HTTP\/\d+\.\d+))?(\r?\n|$)/;
         var statusLine = /^((HTTP\/\d+\.\d+)(\s+))?(\d+)(\s*)([^\r\n]*)(\r?\n|$)/;
         var headerLine = /(([-\w]+)(:)(\s*)|([^\S\r\n]+))([^\r\n]*)(\r?\n|$)/g;
+        var blankLine = /(\r?\n|$)/g;
 
         var req, sts;
         if (req = requestLine.exec(s)) {
@@ -111,41 +116,82 @@
         }
 
         headerLine.lastIndex = i;
-        var hed, contentType;
+        var hed, contentType, simpleType, lang, boundary;
         while ((hed = headerLine.exec(s)) && (hed.index == i)) {
             push(hed[2], 'PR_TYPE');
             push(hed[3], 'PR_PUNCTUATION');
             push(hed[4], 'PR_PLAIN');
             push(hed[5], 'PR_PLAIN');
-            push(hed[6], 'PR_STRING');
-            push(hed[7], 'PR_PLAIN');
             if (hed[2] == 'Content-Type' && !contentType) {
                 contentType = hed[6];
+                simpleType = contentType.split(';')[0].trim().toLowerCase();
+                if (simpleType) {
+                    if (simpleType == 'multipart/mixed') {
+                        lang = 'http';
+                        var bMatch = /(.*?boundary=)([^\s,]+)(.*)/.exec(contentType);
+                        if (bMatch) {
+                            boundary = bMatch[2];
+                            push(bMatch[1], 'PR_STRING');
+                            push(bMatch[2], 'PR_KEYWORD');
+                            push(bMatch[3], 'PR_STRING');
+                            hed[6] = undefined;
+                        }
+                    } else {
+                        lang = findLang(simpleType);
+                    }
+                }
             }
+            push(hed[6], 'PR_STRING');
+            push(hed[7], 'PR_PLAIN');
+        }
+
+        blankLine.lastIndex = i;
+        var bln;
+        if (bln = blankLine.exec(s)) {
+            push(bln[0], 'PR_PLAIN');
         }
 
         if (i < s.length - 1) {
+            if (lang == 'http' && boundary) {
+                var boundaryPattern = new RegExp("(--" + regExpEscape(boundary) + "(?!--))(\\s+)(((?!--" + regExpEscape(boundary) + ")[\\S\\s])*)|(--" + regExpEscape(boundary) + "--)", "g");
 
-            var lang;
-            if (contentType) {
-                var simpleType = contentType.split(';')[0].trim().toLowerCase();
-                lang = findLang(simpleType);
-            }
+                boundaryPattern.lastIndex = i;
+                var bnd;
+                while ((bnd = boundaryPattern.exec(s)) && (bnd.index == i)) {
+                    if (bnd[1]) {
+                        push(bnd[1], 'PR_KEYWORD');
+                        push(bnd[2], 'PR_PLAIN');
+                        var rest = bnd[3];
+                        var subJob = {
+                            basePos:  job.basePos + i,
+                            sourceCode: rest
+                        };
+                        var handler = PR['langHandlerForExtension'](lang, rest);
+                        handler(subJob);
+                        for (var j = 0; j < subJob.decorations.length; j++) {
+                            result.push(subJob.decorations[j]);
+                        }
+                        i += rest.length;
+                    } else {
+                        push(bnd[5], 'PR_KEYWORD');
+                    }
+                }
 
-            if (lang) {
+                if (i < s.length - 1) {
+                    result.push(i)
+                    result.push(PR['PR_PLAIN']);
+                }
+            } else {
                 var rest = s.substring(i);
                 var subJob = {
-                    basePos: i,
+                    basePos: job.basePos + i,
                     sourceCode: rest
                 };
                 var handler = PR['langHandlerForExtension'](lang, rest);
                 handler(subJob);
-                for (var i = 0; i < subJob.decorations.length; i++) {
-                    result.push(subJob.decorations[i]);
-                };
-            } else {
-                result.push(i)
-                result.push(PR['PR_PLAIN']);
+                for (var j = 0; j < subJob.decorations.length; j++) {
+                    result.push(subJob.decorations[j]);
+                }
             }
         }
 
