@@ -5,7 +5,7 @@
  * @author otac0n@gietzen.us
  */
 
-(function () {
+MimeTypes = (function () {
     var langs = [];
 
     var addLang = function (lang, f) {
@@ -77,8 +77,34 @@
         };
     };
 
-    var regExpEscape = function(text) {
+    return {
+        find: findLang
+    };
+})();
+
+var RegExpUtils = {
+    escape: function(text) {
         return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+    },
+    matchAt: function(regExp, subject, i) {
+        regExp = new RegExp(regExp.source, 'g' + (regExp.ignoreCase ? 'i' : '') + (regExp.multiline ? 'm' : ''))
+        regExp.lastIndex = i;
+        var result = regExp.exec(subject);
+        return (result && result.index == i) ? result : null;
+    }
+};
+
+
+(function () {
+    var subJob = function (rest, basePos, lang) {
+        var result = [];
+        var subJob = {
+            basePos:  basePos,
+            sourceCode: rest
+        };
+        var handler = PR['langHandlerForExtension'](lang, rest);
+        handler(subJob);
+        return subJob.decorations;
     };
 
     PR['registerLangHandler'](function (job) {
@@ -92,12 +118,15 @@
                 i += v.length;
             }
         };
+        var pushAll = function (a, len) {
+            for (var j = 0; j < a.length; j++) {
+                result.push(a[j]);
+            };
+            i += len;
+        }
 
         var requestLine = /^(([A-Z]+)(\s+))([^\r\n]+?)((\s+)(HTTP\/\d+\.\d+))?(\r?\n|$)/;
         var statusLine = /^((HTTP\/\d+\.\d+)(\s+))?(\d+)(\s*)([^\r\n]*)(\r?\n|$)/;
-        var headerLine = /(([-\w]+)(:)(\s*)|([^\S\r\n]+))((\r?\n |[^\r\n])*)(\r?\n|$)/g;
-        var blankLine = /(\r?\n|$)/g;
-
         var req, sts;
         if (req = requestLine.exec(s)) {
             push(req[2], 'PR_KEYWORD');
@@ -115,9 +144,11 @@
             push(sts[7], 'PR_PLAIN');
         }
 
-        headerLine.lastIndex = i;
-        var hed, contentType, simpleType, lang, boundary;
-        while ((hed = headerLine.exec(s)) && (hed.index == i)) {
+        var contentType, simpleType, lang, boundary;
+
+        var headerLine = /(([-\w]+)(:)([^\S\r\n]*)|([^\S\r\n]+))((\r?\n |[^\r\n])*)(\r?\n|$)/g;
+        var hed;
+        while (hed = RegExpUtils.matchAt(headerLine, s, i)) {
             push(hed[2], 'PR_TYPE');
             push(hed[3], 'PR_PUNCTUATION');
             push(hed[4], 'PR_PLAIN');
@@ -126,7 +157,7 @@
                 contentType = hed[6];
                 simpleType = contentType.split(';')[0].trim().toLowerCase();
                 if (simpleType) {
-                    if (simpleType.lastIndexOf('multipart/') == 0) {
+                    if (simpleType.lastIndexOf('multipart/', 0) == 0) {
                         var bMatch = /^([\S\s]*?boundary=")([^"\r\n]+)("[\S\s]*)$|^([\S\s]*?boundary=)([^"\s,]+)([\S\s]*)$/.exec(contentType);
                         if (bMatch) {
                             lang = 'http';
@@ -140,7 +171,7 @@
                             hed[6] = undefined;
                         }
                     } else {
-                        lang = findLang(simpleType);
+                        lang = MimeTypes.find(simpleType);
                     }
                 }
             }
@@ -148,33 +179,28 @@
             push(hed[8], 'PR_PLAIN');
         }
 
-        blankLine.lastIndex = i;
+        var blankLine = /(\r?\n|$)/g;
         var bln;
-        if (bln = blankLine.exec(s)) {
+        if (bln = RegExpUtils.matchAt(blankLine, s, i)) {
             push(bln[0], 'PR_PLAIN');
         }
 
         if (i < s.length - 1) {
             if (lang == 'http' && boundary) {
-                var boundaryPattern = new RegExp("(--" + regExpEscape(boundary) + "(?!--))(\\s+)(((?!--" + regExpEscape(boundary) + ")[\\S\\s])*)|(--" + regExpEscape(boundary) + "--)", "g");
+                var preBoundaryPattern = new RegExp("((?!--" + RegExpUtils.escape(boundary) + ")[\\S\\s])*");
+                var pbp;
+                if (pbp = RegExpUtils.matchAt(preBoundaryPattern, s, i)) {
+                    push(pbp[0], 'PR_PLAIN');
+                }
 
-                boundaryPattern.lastIndex = i;
+                var boundaryPattern = new RegExp("(--" + RegExpUtils.escape(boundary) + "(?!--))(\\s+)(((?!--" + RegExpUtils.escape(boundary) + ")[\\S\\s])*)|(--" + RegExpUtils.escape(boundary) + "--)", "g");
                 var bnd;
-                while ((bnd = boundaryPattern.exec(s)) && (bnd.index == i)) {
+                while (bnd = RegExpUtils.matchAt(boundaryPattern, s, i)) {
                     if (bnd[1]) {
                         push(bnd[1], 'PR_KEYWORD');
                         push(bnd[2], 'PR_PLAIN');
-                        var rest = bnd[3];
-                        var subJob = {
-                            basePos:  job.basePos + i,
-                            sourceCode: rest
-                        };
-                        var handler = PR['langHandlerForExtension'](lang, rest);
-                        handler(subJob);
-                        for (var j = 0; j < subJob.decorations.length; j++) {
-                            result.push(subJob.decorations[j]);
-                        }
-                        i += rest.length;
+                        var subResult = subJob(bnd[3], job.basePos + i, lang, result);
+                        pushAll(subResult, bnd[3].length);
                     } else {
                         push(bnd[5], 'PR_KEYWORD');
                     }
@@ -186,15 +212,8 @@
                 }
             } else {
                 var rest = s.substring(i);
-                var subJob = {
-                    basePos: job.basePos + i,
-                    sourceCode: rest
-                };
-                var handler = PR['langHandlerForExtension'](lang, rest);
-                handler(subJob);
-                for (var j = 0; j < subJob.decorations.length; j++) {
-                    result.push(subJob.decorations[j]);
-                }
+                var subResult = subJob(rest, job.basePos + i, lang, result);
+                pushAll(subResult, rest.length);
             }
         }
 
