@@ -55,6 +55,7 @@ MimeTypes = (function () {
     langs.push([ /^appliacion\/.*\+xml$/, 'xml' ]);
     langs.push([ /^text\/x-(.*?)(-src|-source|)$/, 1 ]);
     langs.push([ /^application\/x-(.*?)(-src|-source|)$/, 1 ]);
+    langs.push([ /^multipart\/.*$/, 'http' ]);
 
     var findLang = function (contentType) {
         for (var i = 0; i < langs.length; i++) {
@@ -144,8 +145,7 @@ var RegExpUtils = {
             push(sts[7], 'PR_PLAIN');
         }
 
-        var contentType, simpleType, lang, boundary;
-
+        var allHeaders = {};
         var headerLine = /(([-\w]+)(:)([^\S\r\n]*)|([^\S\r\n]+))((\r?\n |[^\r\n])*)(\r?\n|$)/g;
         var hed;
         while (hed = RegExpUtils.matchAt(headerLine, s, i)) {
@@ -153,36 +153,33 @@ var RegExpUtils = {
             push(hed[3], 'PR_PUNCTUATION');
             push(hed[4], 'PR_PLAIN');
             push(hed[5], 'PR_PLAIN');
-            if (hed[2] == 'Content-Type' && !contentType) {
-                contentType = hed[6];
-                simpleType = contentType.split(';')[0].trim().toLowerCase();
-                if (simpleType) {
-                    if (simpleType.lastIndexOf('multipart/', 0) == 0) {
-                        var bMatch = /^([\S\s]*?boundary=")([^"\r\n]+)("[\S\s]*)$|^([\S\s]*?boundary=)([^"\s,]+)([\S\s]*)$/.exec(contentType);
-                        if (bMatch) {
-                            lang = 'http';
-                            boundary = bMatch[2] || bMatch[5];
-                            push(bMatch[1], 'PR_STRING');
-                            push(bMatch[2], 'PR_KEYWORD');
-                            push(bMatch[3], 'PR_STRING');
-                            push(bMatch[4], 'PR_STRING');
-                            push(bMatch[5], 'PR_KEYWORD');
-                            push(bMatch[6], 'PR_STRING');
-                            hed[6] = undefined;
-                        }
-                    } else {
-                        lang = MimeTypes.find(simpleType);
-                    }
-                }
-            }
+
+            //var subResult = subJob(hed[6], job.basePos + i, 'default-code');
+            //pushAll(subResult, hed[6].length);
             push(hed[6], 'PR_STRING');
+
             push(hed[8], 'PR_PLAIN');
+            allHeaders[hed[2]] = hed[6];
         }
 
         var blankLine = /(\r?\n|$)/g;
         var bln;
         if (bln = RegExpUtils.matchAt(blankLine, s, i)) {
             push(bln[0], 'PR_PLAIN');
+        }
+
+        var contentType = allHeaders['Content-Type'];
+        var lang, boundary;
+        if (contentType) {
+            var simpleType = contentType.split(';')[0].trim().toLowerCase();
+            lang = MimeTypes.find(simpleType);
+
+            if (lang == 'http') {
+                var bMatch = /^([\S\s]*?boundary=")([^"\r\n]+)("[\S\s]*)$|^([\S\s]*?boundary=)([^"\s,]+)([\S\s]*)$/.exec(contentType);
+                if (bMatch) {
+                    boundary = bMatch[2] || bMatch[5];
+                }
+            }
         }
 
         if (i < s.length - 1) {
@@ -199,7 +196,7 @@ var RegExpUtils = {
                     if (bnd[1]) {
                         push(bnd[1], 'PR_KEYWORD');
                         push(bnd[2], 'PR_PLAIN');
-                        var subResult = subJob(bnd[3], job.basePos + i, lang, result);
+                        var subResult = subJob(bnd[3], job.basePos + i, lang);
                         pushAll(subResult, bnd[3].length);
                     } else {
                         push(bnd[5], 'PR_KEYWORD');
@@ -212,7 +209,7 @@ var RegExpUtils = {
                 }
             } else {
                 var rest = s.substring(i);
-                var subResult = subJob(rest, job.basePos + i, lang, result);
+                var subResult = subJob(rest, job.basePos + i, lang);
                 pushAll(subResult, rest.length);
             }
         }
