@@ -505,4 +505,7 @@ article.post blockquote:before {
 
 article.post img {
   max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
