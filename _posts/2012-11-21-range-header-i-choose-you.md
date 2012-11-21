@@ -6,7 +6,7 @@ I was looking around for a semantic way to do pagination over HTTP recently.  I 
 
 I happened upon [a question on Stack Overflow][1] that discussed using the `Range` HTTP header for pagination purposes.  The conclusion there was to use a different approach (mimicking Atom), but I disagree.  I feel that the `Range` header is a perfect fit for pagination.
 
-![][2]
+![(for pagination)][2]
 
 ## Why is the Range header a good fit? ##
 
