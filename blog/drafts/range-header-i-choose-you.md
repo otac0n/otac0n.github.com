@@ -6,13 +6,13 @@ I was looking around for a semantic way to do pagination over HTTP recently.  I 
 
 I happened upon [a question on Stack Overflow][1] that discussed using the `Range` HTTP header for pagination purposes.  The conclusion there was to use a different approach (mimicking Atom), but I disagree.  I feel that the `Range` header is a perfect fit for pagination.
 
-![](http://cdn.memegenerator.net/instances/400x/30562500.jpg)
+![][2]
 
 ## Why is the Range header a good fit? ##
 
 The `Range` header is normally used by browsers to request specific byte-ranges of binary files.  It powers the pause-and-resume functionality of almost every download manager in existence.  This fact tempted me to simply conclude that usage of the `Range` header for any purpose other than pause-and-resume would be an abuse.
 
-However, [RFC 2616][2] has this to say about the `Range` header:
+However, [RFC 2616][3] has this to say about the `Range` header:
 
 > HTTP retrieval requests using conditional or unconditional GET methods MAY request one or more sub-ranges of the entity, instead of the entire entity, using the Range request header, which applies to the entity returned as the result of the request.
 
@@ -203,4 +203,5 @@ To me, it seems that the `Range` header is both more powerful and more semantica
 I urge you to do the same.
 
 [1]: http://stackoverflow.com/questions/924472/paging-in-a-rest-collection
-[2]: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.2
+[2]: {{ site.url }}/blog/images/Range%20Header%20-%201%20-%20I%20Choose%20You.jpg "(for pagination)"
+[3]: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.2
