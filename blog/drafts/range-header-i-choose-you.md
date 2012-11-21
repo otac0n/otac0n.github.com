@@ -1,12 +1,15 @@
 ---
 layout: post
-title: Range header, I choose you!
+title: Range header, I choose you (for pagination)!
 ---
-I was looking around for a semantic way to do pagination over HTTP for a small personal project recently.  I had previously done pagination using the OData-style `$skip` and `$top` query string parameters and I was just generally dissatisfied with how they turned out.  I went looking around for alternatives.
+I was looking around for a semantic way to do pagination over HTTP recently.  I had previously done pagination using the OData-style `$skip` and `$top` query string parameters and I was just generally dissatisfied with how that turned out.  So, I was searching for alternatives.
 
 I happened upon [a question on Stack Overflow][1] that discussed using the `Range` HTTP header for pagination purposes.  The conclusion there was to use a different approach (mimicking Atom), but I disagree.  I feel that the `Range` header is a perfect fit for pagination.
 
+![](http://cdn.memegenerator.net/instances/400x/30562500.jpg)
+
 ## Why is the Range header a good fit? ##
+
 The `Range` header is normally used by browsers to request specific byte-ranges of binary files.  It powers the pause-and-resume functionality of almost every download manager in existence.  This fact tempted me to simply conclude that usage of the `Range` header for any purpose other than pause-and-resume would be an abuse.
 
 However, [RFC 2616][2] has this to say about the `Range` header:
@@ -188,6 +191,10 @@ Content-Range: users 50-59/200
 --next--</code></pre>
 
 The `Range` header style allows for requests that specify multiple ranges; HTTP supports sending results back as a multipart docuemnt.
+
+**The `If-Range` header**
+
+The `If-Range` header allows a range of the entity to be downloaded if it has not changed, but download the entire entity if it has changed.  These semantics don't really fit the pagination model very well, since it is pretty much aimed at resuming paused downloads.
 
 ## Conclustion ##
 
