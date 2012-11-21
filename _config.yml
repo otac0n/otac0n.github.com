@@ -5,6 +5,5 @@ author_name: John Gietzen
 author_email: otac0n@gietzen.us
 
 permalink: /blog/:year/:month/:day/:title.html
-future: false
 markdown: rdiscount
 exclude: run.cmd
