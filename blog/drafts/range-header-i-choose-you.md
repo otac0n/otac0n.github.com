@@ -34,7 +34,7 @@ GET /users</code></pre>
 <pre><code>language: http
 200 OK
 
-[ 0..9 ]</code></pre>
+[ 0, …, 9 ]</code></pre>
 
 **Range-header-style**
 
@@ -46,7 +46,7 @@ GET /users</code></pre>
 Accept-Ranges: users
 Content-Range: users 0-9/200
 
-[ 0..9 ]</code></pre>
+[ 0, …, 9 ]</code></pre>
 
 **Comparison**
 
@@ -67,7 +67,7 @@ GET /users?$skip=0&$top=10&$inlinecount=allpages</code></pre>
 200 OK
 X-Some-Sidechannel: count=200
 
-[ 0..9 ]</code></pre>
+[ 0, …, 9 ]</code></pre>
 
 **Range-header-style**
 
@@ -80,7 +80,7 @@ Range: users=0-9</code></pre>
 Accept-Ranges: users
 Content-Range: users 0-9/200
 
-[ 0..9 ]</code></pre>
+[ 0, …, 9 ]</code></pre>
 
 **Comparison**
 
@@ -160,7 +160,7 @@ Ranges: users=-5</code></pre>
 Accept-Ranges: users
 Content-Range: users 196-200/200
 
-[ 196..200 ]</code></pre>
+[ 196, …, 200 ]</code></pre>
 
 The Range header style allows for requests rooted at the end of the entity, rather than the begining.
 
@@ -178,12 +178,12 @@ Content-Type: multipart/mixed; boundary=next
 --next
 Content-Range: users 0-9/200
 
-[ 0..9 ]
+[ 0, …, 9 ]
 
 --next
 Content-Range: users 50-59/200
 
-[ 50..59 ]
+[ 50, …, 59 ]
 
 --next--</code></pre>
 
