@@ -50,11 +50,11 @@ Content-Range: users 0-9/200
 
 **Comparison**
 
-Both of these have defaults for what the user is allowed to request (limited to 10), but the `Range` header style would automatically send back the count, without $inlinecount being specified.  You would simply need to know where to look. The `Accept-Ranges` header signals that the `users` range is accepted for range requests and implies that a `Content-Ranes` may be present.
+Both of these have defaults for what the user is allowed to request (limited to 10), but the `Range` header style would automatically send back the count, without `$inlinecount` being specified.  You would simply need to know where to look. The `Accept-Ranges` header signals that the `users` range is accepted for range requests and implies that a `Content-Ranes` may be present.
 
 Importantly, the response code for the `Range` header style is `200` (rather than `206` as you might expect) because the request was missing the `Range` header itself.  `Accept-Ranges` and `Content-Range` headers are still allowed in the response, keeping it semantically correct.
 
-The OData-style, in contrast, will not automatically include the count of the collection in the response.  Even if this response were to include the count, unsolicited, there is still no easy way to find out how this data is sent.
+The OData-style, in contrast, will not automatically include the count of the collection in the response.  Even if this response were to include the count, unsolicited, there is still no easy way to discover how this data is sent.
 
 ### Pulling the first page of results normally. ###
 
@@ -67,20 +67,20 @@ GET /users?$skip=0&$top=10&$inlinecount=allpages</code></pre>
 200 OK
 X-Some-Sidechannel: count=200
 
-[ 0..19 ]</code></pre>
+[ 0..9 ]</code></pre>
 
 **Range-header-style**
 
 <pre><code>language: http
 GET /users
-Range: users=10-19</code></pre>
+Range: users=0-9</code></pre>
 
 <pre><code>language: http
 206 Partial Content
 Accept-Ranges: users
-Content-Range: users 10-19/200
+Content-Range: users 0-9/200
 
-[ 10..19 ]</code></pre>
+[ 0..9 ]</code></pre>
 
 **Comparison**
 
@@ -98,7 +98,7 @@ This indicates that the full count is not included, possibly because it is too e
 
 ### Pulling subsequent pages of data. ###
 
-Both systems perform roughly the same for pages in the middle of the collection.
+Both systems perform roughly the same for pages in the middle of the collection.  Neither system has anything to offer here, nor does either fail in any special way.
 
 ### Requesting past the end of the collection. ###
 
@@ -119,11 +119,10 @@ GET /users?$skip=1000</code></pre>
 GET /users
 Range: users=1000-</code></pre>
 
-*Notice that the unbounded range mimmicks the semantics of the OData-style request.*
-
 <pre><code>language: http
 416 Requested Range Not Satisfiable</code></pre>
 
+*Notice that the unbounded range mimmicks the semantics of the OData-style request.*
 
 **Comparison**
 
@@ -133,8 +132,7 @@ The response of the `Range` header style request is precisely in line with the s
 
 Note, as well, that byte-ranges are specified here as a single use-case of the range header, firmly implying that the usage as shown here is the correct semantic usage.
 
-
-The OData-style is not allowed to return a `416` status code, because it never sent a `Range` header.  However, this header still seems semantically correct, even for OData.
+The OData-style is not allowed to return a `416` status code, because it never sent a `Range` header.  One could argue, however, that this status code is semantically correct, even for the OData style request.
 
 ### Additional functionality of the range header. ###
 
