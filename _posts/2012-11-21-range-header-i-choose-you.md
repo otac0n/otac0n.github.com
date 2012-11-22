@@ -195,7 +195,7 @@ The `Range` header style allows for requests that specify multiple ranges; HTTP 
 
 The `If-Range` header allows a range of the entity to be downloaded if it has not changed, but download the entire entity if it has changed.  These semantics don't really fit the pagination model very well, since it is pretty much aimed at resuming paused downloads.
 
-**Infinite or indeterminite collections**
+**Infinite or indeterminate collections**
 
 <pre><code>language: http
 GET /users?name=Fred</code></pre>
