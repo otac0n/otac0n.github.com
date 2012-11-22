@@ -2,7 +2,7 @@
 layout: post
 title: Range header, I choose you (for pagination)!
 ---
-I was looking around for a semantic way to do pagination over HTTP recently.  I had previously done pagination using the OData-style `$skip` and `$top` query string parameters and I was just generally dissatisfied with how that turned out.  So, I was searching for alternatives.
+I was looking around for a semantic way to do pagination over HTTP recently.  I had previously used the OData-style `$skip` and `$top` query string parameters and I was just generally dissatisfied with how that turned out.  So, I was searching for alternatives.
 
 I happened upon [a question on Stack Overflow][1] that discussed using the `Range` HTTP header for pagination purposes.  The conclusion there was to use a different approach (mimicking Atom), but I disagree.  I feel that the `Range` header is a perfect fit for pagination.
 
@@ -20,7 +20,7 @@ Our entity is a collection of objects, and we are requesting "sub-ranges of the 
 
 ## How does it measure up? ##
 
-So, from the spec, it looks like the `Range` header was designed specifically to handle this concern, but how does this play out in practice?  It would be foolish to just commit to using the header without making sure it was up to the task.
+So, from the spec, it looks like the `Range` header was designed to handle this concern, but how does this play out in practice?  It would be foolish to just commit to using the header without making sure it was up to the task.
 
 Let's evaluate its behavior in contrast to OData-style pagination.
 
@@ -53,9 +53,9 @@ Content-Range: users 0-9/200
 
 **Comparison**
 
-Both of these have defaults for what the user is allowed to request (limited to 10), but the `Range` header style would automatically send back the count, without `$inlinecount` being specified.  You would simply need to know where to look. The `Accept-Ranges` header signals that the `users` range is accepted for range requests and implies that a `Content-Ranes` may be present.
+Both of these have defaults for what the user is allowed to request (limited to 10), but the `Range` header style is allowed to send back the count, without `$inlinecount` being specified.  The `Accept-Ranges` header signals that the `users` range is accepted and implies that a `Content-Ranges` may be present. This makes for good discoverability.
 
-Importantly, the response code for the `Range` header style is `200` (rather than `206` as you might expect) because the request was missing the `Range` header itself.  `Accept-Ranges` and `Content-Range` headers are still allowed in the response, keeping it semantically correct.
+Importantly, the response code for the `Range` header style is `200` (rather than `206` as you might expect) because the request did not include the `Range` header itself.  `Accept-Ranges` and `Content-Range` headers are still allowed in the response, keeping it semantically correct.
 
 The OData-style, in contrast, will not automatically include the count of the collection in the response.  Even if this response were to include the count, unsolicited, there is still no easy way to discover how this data is sent.
 
@@ -87,7 +87,7 @@ Content-Range: users 0-9/200
 
 **Comparison**
 
-Since the request was made with a Range header, the right side is allowed to respond with a `206 Partial Content` response code, indicating the presence of the Content-Range response header.
+Since the request included the `Range` header, the server is allowed to respond with a `206 Partial Content` status code, indicating the presence of the Content-Range response header.
 
 OData had to specify the `$inlinecount=allpages` parameter in order to get the full length of the filtered collection, bloating the URL.
 
@@ -97,7 +97,6 @@ Additionally, the Range header style is allowed to return a Content-Range respon
     Content-Range: 200-250/*
 
 This indicates that the full count is not included, possibly because it is too expensive to calculate.  This is often the case for complex queries.  This flexibility allows the server to chose whether or not to calculate the total length, based on the particular query at hand. In the OData version, however, the `$inlinecount` parameter is a command to get the count.  The server is not free to withold the count when it is expensive or difficult to obtain.
-
 
 ### Pulling subsequent pages of data. ###
 
@@ -195,6 +194,20 @@ The `Range` header style allows for requests that specify multiple ranges; HTTP 
 **The `If-Range` header**
 
 The `If-Range` header allows a range of the entity to be downloaded if it has not changed, but download the entire entity if it has changed.  These semantics don't really fit the pagination model very well, since it is pretty much aimed at resuming paused downloads.
+
+**Infinite or indeterminite collections**
+
+<pre><code>language: http
+GET /users?name=Fred</code></pre>
+
+<pre><code>language: http
+206 Partial Content
+Accept-Ranges: users
+Content-Range: users 0-100/*
+
+[ 0, …, 100 ]</code></pre>
+
+As mentioned earlier, the `Content-Range` response header can specify `*` as the total size of the entity.  This means that the entity has an unknown or unbounded size.  This is particularly useful in search applications that may not know the full size of the result set for every query.
 
 ## Conclustion ##
 
