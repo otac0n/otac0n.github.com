@@ -68,7 +68,7 @@ GET /users?$skip=0&$top=10&$inlinecount=allpages</code></pre>
 
 <pre><code>language: http
 200 OK
-X-Some-Sidechannel: count=200
+X-Some-Side-Channel: count=200
 
 [ 0, …, 9 ]</code></pre>
 
@@ -124,7 +124,7 @@ Range: users=1000-</code></pre>
 <pre><code>language: http
 416 Requested Range Not Satisfiable</code></pre>
 
-*Notice that the unbounded range mimmicks the semantics of the OData-style request.*
+*Notice that the unbounded range mimics the semantics of the OData-style request.*
 
 **Comparison**
 
@@ -189,7 +189,7 @@ Content-Range: users 50-59/200
 
 --next--</code></pre>
 
-The `Range` header style allows for requests that specify multiple ranges; HTTP supports sending results back as a multipart docuemnt.
+The `Range` header style allows for requests that specify multiple ranges; HTTP supports sending results back as a multipart document.
 
 **The `If-Range` header**
 
@@ -209,9 +209,9 @@ Content-Range: users 0-100/*
 
 As mentioned earlier, the `Content-Range` response header can specify `*` as the total size of the entity.  This means that the entity has an unknown or unbounded size.  This is particularly useful in search applications that may not know the full size of the result set for every query.
 
-## Conclustion ##
+## Conclusion ##
 
-To me, it seems that the `Range` header is both more powerful and more semanticaly correct than the OData-style of query string parameters (or any query string style, for that matter). As such, I will always use the standard `Range` HTTP header whenever I implement REST APIs.
+To me, it seems that the `Range` header is both more powerful and more semantically correct than the OData-style of query string parameters (or any query string style, for that matter). As such, I will always use the standard `Range` HTTP header whenever I implement REST APIs.
 
 I urge you to do the same.
 
