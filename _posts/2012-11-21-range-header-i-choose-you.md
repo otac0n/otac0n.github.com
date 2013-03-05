@@ -155,7 +155,7 @@ The Range header style allows for discovery of acceptable ranges via the OPTIONS
 
 <pre><code>language: http
 GET /users
-Ranges: users=-5</code></pre>
+Range: users=-5</code></pre>
 
 <pre><code>language: http
 206 Partial Content
@@ -170,7 +170,7 @@ The Range header style allows for requests rooted at the end of the entity, rath
 
 <pre><code>language: http
 GET /users
-Ranges: users=0-9,50-59</code></pre>
+Range: users=0-9,50-59</code></pre>
 
 <pre><code>language: http
 206 Partial Content
