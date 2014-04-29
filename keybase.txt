@@ -1,0 +1,65 @@
+==================================================================
+https://keybase.io/otac0n
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://otac0n.com
+  * I am otac0n (https://keybase.io/otac0n) on keybase.
+  * I have a public key with fingerprint 049F A0C3 7352 DB2C 3FAA  05B2 0246 FA2A C899 8685
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "fingerprint": "049fa0c37352db2c3faa05b20246fa2ac8998685",
+            "host": "keybase.io",
+            "key_id": "0246fa2ac8998685",
+            "uid": "24b8633ed9a7ed98adbb564604393500",
+            "username": "otac0n"
+        },
+        "service": {
+            "hostname": "otac0n.com",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1398732232,
+    "expire_in": 157680000,
+    "prev": "584067748588dcc7e91368e5f6816c1e95b45ce9e843c2d199e7be5a81b79436",
+    "seqno": 3,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v0.1.12
+Comment: https://keybase.io/crypto
+
+yMHtAnicZZFtSFRZHMZnbCqb2UAKlBBEb0HFTnLfXs4dqNYPhh98idIothruy5nx
+6njvdO+d8XXSNGHXDUM3pUkQ9Yuzai5G4ssnX3qjgo2YdSELYxHK0hIm90MWea60
+H6Lz4RzO8/89z/8c/nd2brE57ZWjL3tfJZK32x9NrYRsJ8+vPajFRE2uxjy1WDnc
+PHyK6od6UFdUE/NgOM37BFyiOIohZZGUKJ8g4IxI4iTN+gRSkADPAxYwmBsr1QzL
+gWJEwYDZioY0dPEqspXzPR/aLJC0CFiKgjIvcGgDgiyKDEuzOE3xFIPjFmhAXRUq
+IKI1U5BwFYu4MaSFFQlptZuNv6lnS1oF8gV1zdQkLYD0UtMMeiybWR20uEooer8m
+eEVFldGfkSEMdUPRVMxDIFIyFSuSoHjAUSRJkW4MVgUVHXoVi2A4FuBoWW1gGEUy
+gMZZjqMBA4AsSRzkCYoFkPGxgGAlAvKMSDMS5CGgKYmUCZ6HnAgZARAix9MUi/ob
+8IKqYR4KPVPwo0hD8auCGdIhFpmZOuuw2Z22bVuTrKnZnDtS/p+ly55sa865meJ6
+tjzTZ/REWq8UBvj8EYJs7bnoZ+i+suzxueCwY/30qf7OI3WxaPpPWR8HipYy6r+c
+Kfu9eHHkWvdQ1x4uM7P3cCQ+HRhL+yH+Y+yfmuVwatOL5fmkhoHxG//lp/8a/3l4
+KLDIPD0aqupTUzr0grZog9I8efDPv8sbP3D5OWC0MPo5b6kzMf38Vk9u0mzNH7tX
+Oi4vpDcdMNbOua7HEm/vrauDWcV5Rc6S6WMTvRPGJzY2vzC2a/VSY0ZiX4sekNdc
+/8onXv8SjLpzf3uYcFxtT3tTslCw9+7kk4y/4o+Pzzre5bQvKnVT3ez+1Jbb/e/n
+DnWVtA2u4vVN9zcAMJ8Xow==
+=5sYi
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/otac0n
+
+==================================================================
