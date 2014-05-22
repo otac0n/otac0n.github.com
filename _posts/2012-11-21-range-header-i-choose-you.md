@@ -160,9 +160,9 @@ Range: users=-5</code></pre>
 <pre><code>language: http
 206 Partial Content
 Accept-Ranges: users
-Content-Range: users 196-200/200
+Content-Range: users 195-199/200
 
-[ 196, …, 200 ]</code></pre>
+[ 195, …, 199 ]</code></pre>
 
 The Range header style allows for requests rooted at the end of the entity, rather than the begining.
 
