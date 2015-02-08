@@ -143,7 +143,7 @@ Here are some things that the `Range` header supports that have no analog in the
 **Discoverability**
 
 <pre><code>language: http
-OPTION /users</code></pre>
+OPTIONS /users</code></pre>
 
 <pre><code>language: http
 200 OK
