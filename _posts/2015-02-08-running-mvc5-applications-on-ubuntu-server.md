@@ -6,7 +6,7 @@ title: Running MVC5 Applications on Ubuntu Server (14.04.1 LTS)
 We will be following the steps outline in the [Install Mono on Linux][1] guide and the
 [ASP.NET 5 Getting Started][2] guide.
 
-When I installed Mono, KVM, and KPM as described in the above guides, however, I ran in to a couple of issues.  First, `unzip` was not installed, causing the `kvm upgrade` command to fail.  Secondly, `libtool` was not found, yielding the following exception:
+When I installed Mono, KVM, and KPM as described in the above guides, I ran in to a couple of issues.  First, `unzip` was not installed, causing the `kvm upgrade` command to fail.  Secondly, `libtool` was not found, yielding the following exception:
 
 <pre>System.DllNotFoundException: libdl
   at (wrapper managed-to-native) Microsoft.AspNet.Server.Kestrel.Networking.PlatformApis/LinuxApis:dlopen (string,int)
@@ -91,9 +91,13 @@ kpm restore
 # Run the sample
 k kestrel</code></pre>
 
-Here's it running on my machine:
+Here it is, running on my machine:
+
+![Running Kestrel][3]
+
+![Working Sample][4]
 
 [1]: http://www.mono-project.com/docs/getting-started/install/linux/
 [2]: https://github.com/aspnet/Home#getting-started
-[3]: {{ site.url }}/blog/images/AspNetUbuntu%20-%201%20-%20Running%20Kestrel.jpg
-[4]: {{ site.url }}/blog/images/AspNetUbuntu%20-%202%20-%20Working%20Sample.jpg
+[3]: {{ site.url }}/blog/images/AspNetUbuntu%20-%201%20-%20Running%20Kestrel.jpg "Running Kestrel"
+[4]: {{ site.url }}/blog/images/AspNetUbuntu%20-%202%20-%20Working%20Sample.jpg "Working sample"
