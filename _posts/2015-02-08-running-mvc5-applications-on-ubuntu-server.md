@@ -99,5 +99,5 @@ Here it is, running on my machine:
 
 [1]: http://www.mono-project.com/docs/getting-started/install/linux/
 [2]: https://github.com/aspnet/Home#getting-started
-[3]: {{ site.url }}/blog/images/AspNetUbuntu%20-%201%20-%20Running%20Kestrel.jpg "Running Kestrel"
-[4]: {{ site.url }}/blog/images/AspNetUbuntu%20-%202%20-%20Working%20Sample.jpg "Working sample"
+[3]: {{ site.url }}/blog/images/AspNetUbuntu%20-%201%20-%20Running%20Kestrel.png "Running Kestrel"
+[4]: {{ site.url }}/blog/images/AspNetUbuntu%20-%202%20-%20Working%20Sample.png "Working sample"
