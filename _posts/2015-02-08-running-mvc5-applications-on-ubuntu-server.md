@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Running MVC5 applications on Ubuntu Server (14.04.1 LTS)
+title: Running MVC5 Applications on Ubuntu Server (14.04.1 LTS)
 ---
 
 We will be following the steps outline in the [Install Mono on Linux][1] guide and the
