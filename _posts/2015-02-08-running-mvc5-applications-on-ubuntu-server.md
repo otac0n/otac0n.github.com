@@ -34,34 +34,34 @@ So without further ado, here is a quick step-by-step guide to Running MVC5 appli
 
 First, install Mono.  These steps are pulled straight from the [Install Mono on Linux][1] guide.
 
-<pre><code>language: sh
-# Add the Xamarin public code-signing key
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+    language: sh
+    # Add the Xamarin public code-signing key
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
 
-# Add the Mono repository to apt sources
-echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
+    # Add the Mono repository to apt sources
+    echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
 
-# Install Mono
-sudo apt-get update
-sudo apt-get install -y mono-complete</code></pre>
+    # Install Mono
+    sudo apt-get update
+    sudo apt-get install -y mono-complete
 
 ### Install libtool, libuv, unzip and Their Dependencies ###
 
 Next we install the rest of the dependencies.
 
-<pre><code>language: sh
-# Install other prerequisites
-sudo apt-get install -y autoconf build-essential git-core libtool unzip
+    language: sh
+    # Install other prerequisites
+    sudo apt-get install -y autoconf build-essential git-core libtool unzip
 
-# Compile libuv
-cd /opt
-sudo git clone https://github.com/libuv/libuv.git
-cd libuv
-sudo ./autogen.sh
-sudo ./configure
-sudo make
-sudo make install
-sudo ln -s /usr/local/lib/libuv.so /usr/lib/libuv.so.1</code></pre>
+    # Compile libuv
+    cd /opt
+    sudo git clone https://github.com/libuv/libuv.git
+    cd libuv
+    sudo ./autogen.sh
+    sudo ./configure
+    sudo make
+    sudo make install
+    sudo ln -s /usr/local/lib/libuv.so /usr/lib/libuv.so.1
 
 *`autoconf`, `build-essential`, and `git-core` are necessary to build and install `libuv`.*
 
@@ -69,27 +69,27 @@ sudo ln -s /usr/local/lib/libuv.so /usr/lib/libuv.so.1</code></pre>
 
 These steps are pulled from the [ASP.NET 5 Getting Started][2] guide.
 
-<pre><code>language: sh
-# Get the K Version Manager
-curl -sSL https://raw.githubusercontent.com/aspnet/Home/master/kvminstall.sh | sh && source ~/.kre/kvm/kvm.sh
+    language: sh
+    # Get the K Version Manager
+    curl -sSL https://raw.githubusercontent.com/aspnet/Home/master/kvminstall.sh | sh && source ~/.kre/kvm/kvm.sh
 
-# Install the runtime
-kvm upgrage</code></pre>
+    # Install the runtime
+    kvm upgrage
 
 ## All Done? ##
 
 Here we could call it a day, since your Ubuntu system is now set up to run ASP.NET 5 applications. Why don't we follow through with the rest of the guide so we can see it working?
 
-<pre><code>language: sh
-# Obtain the ASP.NET 5 samples
-git clone https://github.com/aspnet/Home.git ~/AspNetHome
-cd ~/AspNetHome/samples/HelloMvc
+    language: sh
+    # Obtain the ASP.NET 5 samples
+    git clone https://github.com/aspnet/Home.git ~/AspNetHome
+    cd ~/AspNetHome/samples/HelloMvc
 
-# Get all of the .NET dependencies necessary to run the sample
-kpm restore
+    # Get all of the .NET dependencies necessary to run the sample
+    kpm restore
 
-# Run the sample
-k kestrel</code></pre>
+    # Run the sample
+    k kestrel
 
 Here it is, running on my machine:
 

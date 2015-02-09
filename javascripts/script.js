@@ -1,6 +1,7 @@
 $(function(){
-  $('pre').addClass('prettyprint').find('code').each(function () {
+  $('pre').find('code').each(function () {
     var $this = $(this);
+    $this.parent().addClass('prettyprint');
     var text = $this.text();
     var match = /^language: ([-\w]+)(\r\n?|\n)/.exec(text);
     if (match) {
