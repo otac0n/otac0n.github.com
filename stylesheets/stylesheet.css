@@ -514,3 +514,11 @@ article.post img {
   margin-right: auto;
   display: block;
 }
+
+dl {
+  display: grid;
+}
+
+dd {
+  grid-column-start: 2;
+}
