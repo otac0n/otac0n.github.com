@@ -1,16 +1,29 @@
 $(function(){
+  $('img + .alt,' +
+    'img + p:has(.alt:only-child),' +
+    'p:has(> img:only-child) + .alt,' +
+    'p:has(> img:only-child) + p:has(.alt:only-child)').each(function () {
+    var $container = $(this);
+    var $alt = $container.is('.alt') ? $container : $container.children('.alt');
+    var $img = $container.prev().is('img') ? $container.prev() : $container.prev().find('img');
+
+    $img.replaceWith($alt.contents());
+    $container.remove();
+  });
   $('pre').find('code').each(function () {
     var $this = $(this);
-    $this.parent().addClass('prettyprint');
     var text = $this.text();
-    var match = /^language: ([-\w]+)(\r\n?|\n)/.exec(text);
+    var match = /^(?:\r\n?|\n)*lang(?:uage)?: ([-\w]+)(?:\r\n?|\n)/.exec(text);
     if (match) {
       var cssClass = match[1] === 'mermaid' ? 'mermaid' : 'lang-' + match[1];
       $this.addClass(cssClass).text(text.substring(match[0].length));
     }
+    if (!$this.hasClass('mermaid')) {
+      $this.parent().addClass('prettyprint');
+    }
   });
-  prettyPrint();
   mermaid.run({ nodes: [ document.getElementsByClassName('mermaid') ] });
+  prettyPrint();
 
   var headings = [];
 
