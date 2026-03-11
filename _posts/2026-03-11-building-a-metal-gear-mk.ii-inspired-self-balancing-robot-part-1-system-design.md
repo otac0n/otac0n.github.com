@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Building a Metal Gear Mk.II-Inspired Self-Balancing Robot (Part 1: System Design)
+title: 'Building a Metal Gear Mk.II-Inspired Self-Balancing Robot (Part 1: System Design)'
 tags:
 - robotics
 ---
