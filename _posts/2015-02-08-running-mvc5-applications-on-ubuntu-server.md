@@ -8,23 +8,23 @@ We will be following the steps outline in the [Install Mono on Linux][1] guide a
 
 When I installed Mono, KVM, and KPM as described in the above guides, I ran in to a couple of issues.  First, `unzip` was not installed, causing the `kvm upgrade` command to fail.  Secondly, `libtool` was not found, yielding the following exception:
 
-<pre>System.DllNotFoundException: libdl
-  at (wrapper managed-to-native) Microsoft.AspNet.Server.Kestrel.Networking.PlatformApis/LinuxApis:dlopen (string,int)
-  at Microsoft.AspNet.Server.Kestrel.Networking.PlatformApis+LinuxApis.LoadLibrary (System.String dllToLoad) [0x00000] in <filename unknown>:0
-  at Microsoft.AspNet.Server.Kestrel.Networking.Libuv.Load (System.String dllToLoad) [0x00000] in <filename unknown>:0
-  at Microsoft.AspNet.Server.Kestrel.KestrelEngine..ctor (ILibraryManager libraryManager) [0x00000] in <filename unknown>:0
-  at Kestrel.ServerFactory.Start (IServerInformation serverInformation, System.Func`2 application) [0x00000] in <filename unknown>:0
-  at Microsoft.AspNet.Hosting.HostingEngine.Start (Microsoft.AspNet.Hosting.HostingContext context) [0x00000] in <filename unknown>:0
-  at Microsoft.AspNet.Hosting.Program.Main (System.String[] args) [0x00000] in <filename unknown>:0
-  at (wrapper managed-to-native) System.Reflection.MonoMethod:InternalInvoke (System.Reflection.MonoMethod,object,object[],System.Exception&)
-  at System.Reflection.MonoMethod.Invoke (System.Object obj, BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x00000] in <filename unknown>:0</pre>
+    System.DllNotFoundException: libdl
+      at (wrapper managed-to-native) Microsoft.AspNet.Server.Kestrel.Networking.PlatformApis/LinuxApis:dlopen (string,int)
+      at Microsoft.AspNet.Server.Kestrel.Networking.PlatformApis+LinuxApis.LoadLibrary (System.String dllToLoad) [0x00000] in <filename unknown>:0
+      at Microsoft.AspNet.Server.Kestrel.Networking.Libuv.Load (System.String dllToLoad) [0x00000] in <filename unknown>:0
+      at Microsoft.AspNet.Server.Kestrel.KestrelEngine..ctor (ILibraryManager libraryManager) [0x00000] in <filename unknown>:0
+      at Kestrel.ServerFactory.Start (IServerInformation serverInformation, System.Func`2 application) [0x00000] in <filename unknown>:0
+      at Microsoft.AspNet.Hosting.HostingEngine.Start (Microsoft.AspNet.Hosting.HostingContext context) [0x00000] in <filename unknown>:0
+      at Microsoft.AspNet.Hosting.Program.Main (System.String[] args) [0x00000] in <filename unknown>:0
+      at (wrapper managed-to-native) System.Reflection.MonoMethod:InternalInvoke (System.Reflection.MonoMethod,object,object[],System.Exception&)
+      at System.Reflection.MonoMethod.Invoke (System.Object obj, BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x00000] in <filename unknown>:0
 
 Installing the `libtool` package fixed the issue.  Lastly, once `libtool` was installed, I was greeted with this exception:
 
-<pre>System.NullReferenceException: Object reference not set to an instance of an object
-  at Microsoft.AspNet.Server.Kestrel.Networking.Libuv.loop_size () [0x00000] in <filename unknown>:0
-  at Microsoft.AspNet.Server.Kestrel.Networking.UvLoopHandle.Init (Microsoft.AspNet.Server.Kestrel.Networking.Libuv uv) [0x00000] in <filename unknown>:0
-  at Microsoft.AspNet.Server.Kestrel.KestrelThread.ThreadStart (System.Object parameter) [0x00000] in <filename unknown>:0</pre>
+    System.NullReferenceException: Object reference not set to an instance of an object
+      at Microsoft.AspNet.Server.Kestrel.Networking.Libuv.loop_size () [0x00000] in <filename unknown>:0
+      at Microsoft.AspNet.Server.Kestrel.Networking.UvLoopHandle.Init (Microsoft.AspNet.Server.Kestrel.Networking.Libuv uv) [0x00000] in <filename unknown>:0
+      at Microsoft.AspNet.Server.Kestrel.KestrelThread.ThreadStart (System.Object parameter) [0x00000] in <filename unknown>:0
 
 This was remedied by downloading, compiling, and installing `libuv`.  In particular, `libuv` needs to be installed (or symlinked) to `/usr/lib/libuv.so.1` for everything to work correctly.
 
