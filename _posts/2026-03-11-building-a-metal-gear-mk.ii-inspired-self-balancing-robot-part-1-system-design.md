@@ -31,7 +31,46 @@ I paved this basic roadmap:
 
 To save costs, I hoped to reuse as many of the prototype components in the final bot as possible. So, based mostly on the Simple FOC Arduino Balancer project, I drafted this design:
 
-![System Design (draft)](/blog/images/mk.ii/foc-balancer-system-v1.png)
+    lang: mermaid
+    graph TB
+      battery[4S LIPO]
+      splitter[XT90 Splitter]
+      step_down[5V 5A Step-Down]
+      rail_14v_in@{ shape: junction }
+      rail_5v_in@{ shape: junction }
+      battery -- 14.8V --> splitter
+      splitter -- 14.8V --> rail_14v_in
+      splitter -- 14.8V --> step_down
+      step_down -- 5V --> rail_5v_in
+      high_level_controller[Pi 5 / Jetson Orin]
+      camera
+      screen
+      low_level_controller[STM32F3DISCOVERY]
+      motor_controller_left[SimpleFOC Mini]
+      motor_controller_right[SimpleFOC Mini]
+      motor_left[2408 BLDC]
+      motor_right[2408 BLDC]
+      sensor_left[AS5600]
+      sensor_right[AS5600]
+      rail_5v_1@{ shape: junction } -- 5V --> high_level_controller
+      rail_5v_2@{ shape: junction } -- 5V --> low_level_controller
+      high_level_controller -- Direction --> low_level_controller
+      camera -- A/V --> high_level_controller
+      high_level_controller -- UI --> screen
+      low_level_controller -- Telemetry --> high_level_controller
+      low_level_controller -- PWM --> motor_controller_left
+      rail_14v_1@{ shape: junction } -- 14.8V --> motor_controller_left
+      motor_controller_left --> motor_left
+      motor_left --> sensor_left
+      rail_5v_3@{ shape: junction } -- 5V --> sensor_left
+      sensor_left -- SPI --> low_level_controller
+      low_level_controller -- PWM --> motor_controller_right
+      rail_14v_2@{ shape: junction } -- 14.8V --> motor_controller_right
+      motor_controller_right --> motor_right
+      motor_right --> sensor_right
+      rail_5v_4@{ shape: junction } -- 5V --> sensor_right
+      sensor_right -- SPI --> low_level_controller
+
   - Raspberry Pi 5 8GB / NVIDIA Jetson Orin Nano (8GB) for computer vision
   - STM32F3DISCOVERY with microcontroller, accelerometer, gyroscope, and motor output/input pins
   - 4S Lipo for power
@@ -64,7 +103,45 @@ I really appreciate their feedback. I narrowed down the list of STM boards based
 
 I finally settled on the STM32F411DISCOVERY board based on my perception of the usefulness of the on-board hardware contrasted against the price.
 
-![System Design (ordered)](/blog/images/mk.ii/foc-balancer-system-v2.png)
+    lang: mermaid
+    graph TB
+      battery[4S LIPO]
+      splitter[XT90 Splitter]
+      step_down[5V 5A step-down]
+      rail_14v_in@{ shape: junction }
+      rail_5v_in@{ shape: junction }
+      battery -- 14.8V --> splitter
+      splitter -- 14.8V --> rail_14v_in
+      splitter -- 14.8V --> step_down
+      step_down -- 5V --> rail_5v_in
+      high_level_controller[Pi 5 / Jetson Orin]
+      camera
+      screen
+      low_level_controller[STM32F411E-DISCOVERY]
+      motor_controller_left[SimpleFOC Mini]
+      motor_controller_right[SimpleFOC Mini]
+      motor_left[GM4108 BLDC]
+      motor_right[GM4108 BLDC]
+      sensor_left[AS5047P]
+      sensor_right[AS5047P]
+      rail_5v_1@{ shape: junction } -- 5V --> high_level_controller
+      rail_5v_2@{ shape: junction } -- 5V --> low_level_controller
+      high_level_controller -- Direction --> low_level_controller
+      camera -- A/V --> high_level_controller
+      high_level_controller -- UI --> screen
+      low_level_controller -- Telemetry --> high_level_controller
+      low_level_controller -- PWM --> motor_controller_left
+      rail_14v_1@{ shape: junction } -- 14.8V --> motor_controller_left
+      motor_controller_left --> motor_left
+      motor_left --> sensor_left
+      rail_5v_3@{ shape: junction } -- 5V --> sensor_left
+      sensor_left -- ABZ --> low_level_controller
+      low_level_controller -- PWM --> motor_controller_right
+      rail_14v_2@{ shape: junction } -- 14.8V --> motor_controller_right
+      motor_controller_right --> motor_right
+      motor_right --> sensor_right
+      rail_5v_4@{ shape: junction } -- 5V --> sensor_right
+      sensor_right -- ABZ --> low_level_controller
 
 # Coming Up...
 
