@@ -5,7 +5,7 @@ tags:
 - robotics
 ---
 
-# Inspiration
+## Inspiration
 
 At the end of July last year I happened across [a Reddit post](https://www.reddit.com/r/EngineeringPorn/comments/1m8ztyc/my_mini_robomate_is_finally_alive/) showing off the performance of a two-wheeled balancer robot. At the time I was still playing through *Metal Gear Solid 4*, so I immediately noticed the similarities between their robots and the [Metal Gear Mk.II](https://metalgear.fandom.com/wiki/Metal_Gear_Mk._II):
 
@@ -15,7 +15,7 @@ I eagerly joined their subreddit and Discord channel to see if their bots were c
 
 I was too eager to wait, so I started planning my own bot. After a bit of searching, I found a couple of preexisting projects that seemed like good places to start. The most similar project to Mk.II was [MABEL](https://github.com/raspibotics/MABEL), with its independent legs.  However, [SimpleFOCBalancer](https://github.com/simplefoc/Arduino-FOC-balancer) won me over by its simplicity as a starting point.
 
-# Goals
+## Goals
 
 My goals with this project were to (A) learn basic robotics and (B) achieve as close of a representation of Mk.II as I could manage. Since I had zero practical experience with robotics and a pretty abysmal electronics track record, I knew I needed to take it slow. Mistakes would be made.
 
@@ -77,13 +77,13 @@ graph TB
   - Raspberry Pi 5 8GB / NVIDIA Jetson Orin Nano (8GB) for computer vision
   - STM32F3DISCOVERY with microcontroller, accelerometer, gyroscope, and motor output/input pins
   - 4S Lipo for power
-    - Needs enough juice to run both of the control boards and the motors.
+    - Needs enough juice to run both of the control boards as well as the motors.
   - 5V Step Down for main power rail
     - I had originally planned for both a 5v and 3.3v rail, but decided to unify behind 5v for simplicity since the STM can safely interface with it.
   - Simple FOC Mini motor driver board
   - 2804 BLDC + AS5600 Encoder kit for closed-loop motor control
 
-# Feedback
+## Feedback
 
 Before spending any money on this scheme, I wanted to get the input of folks much more knowledgeable than me.  Besides, I was about to travel with my family to the UK and couldn't immediately receive packages. I started sharing my plan on a few robotics Discord servers in search of critical feedback. The SimpleFOC folks [gave me good advice](https://discord.com/channels/927331369137352734/927332503654633572/1399896314682282117):
 
@@ -96,7 +96,9 @@ Before spending any money on this scheme, I wanted to get the input of folks muc
 - @runger
   > I also think that for the size robot you'll end up with, given battery, RPi/Jetson, etc you should go one size bigger with the motors, and use something like a 3506 or 4108 size motor
 
-I really appreciate their feedback. I narrowed down the list of STM boards based on @copper280z's feedback and the prices at the time:
+I really appreciate their feedback. @copper280z highlighted that the AS5600 uses either I²C or PWM output which consumes more CPU time than ABZ or SPI. ABZ has the lowest overhead, only changing one or two pins per incremental movement. They also suggested I choose a more powerful MCU (microcontroller). @runger said I needed a LOT more torque.
+
+I narrowed down the list of STM boards based on this feedback and the prices at the time:
 
   - [STM32F3DISCOVERY](https://www.st.com/en/evaluation-tools/stm32f3discovery.html) - $16.31 - STM32F303VC (72 MHz, 256KB) - but advised against
   - **[STM32F411EDISCOVERY](https://www.st.com/en/evaluation-tools/32f411ediscovery.html) - $15.55 - STM32F411VE (100 MHz, 512KB) - but a bit slower than recommended**
@@ -104,7 +106,7 @@ I really appreciate their feedback. I narrowed down the list of STM boards based
   - [B-U585I-IOT02A](https://www.st.com/en/evaluation-tools/b-u585i-iot02a.html) - $64 - STM32U585AI (160 MHz, 2MB) - too expensive and too many unwanted features
   - [STM32F407G-DISC1](https://www.st.com/en/evaluation-tools/stm32f4discovery.html) - $20.48 - STM32F407VG (168 MHz, 1MB) - three axis only
 
-I finally settled on the STM32F411DISCOVERY board based on my perception of the usefulness of the on-board hardware contrasted against the price.
+I finally settled on the STM32F411DISCOVERY board based on my perception of the usefulness of the on-board hardware contrasted against the price. The AS5048A stood out as a good choice due to its ABZ and SPI modes. The larger of the motors, the GM4108H-120T, fit barely within the wheel dimensions of the Mk.II: perfect.
 
 ![System Desing (ordered)](/blog/images/mk.ii/foc-balancer-system-v2.png)
 <div class="alt" style="display: none"><pre><code>
@@ -149,7 +151,7 @@ graph TB
   sensor_right -- ABZ --> low_level_controller
 </code></pre></div>
 
-# Coming Up...
+## Coming Up...
 
 This project is several firsts for me:
   - my first non-LEGO robotics project
