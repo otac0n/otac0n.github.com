@@ -10,7 +10,7 @@ $(function(){
     }
   });
   prettyPrint();
-  mermaid.run({ nodes: [ document.getElementsByClass('mermaid') ] });
+  mermaid.run({ nodes: [ document.getElementsByClassName('mermaid') ] });
 
   var headings = [];
 
