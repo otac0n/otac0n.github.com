@@ -411,6 +411,11 @@ article.post pre {
   overflow-x: auto;
 }
 
+article.post pre:has(.mermaid) {
+  background-color:#fff;
+  color: #000;
+}
+
 article.post ul,
 article.post ol {
   padding-left: 30px;
