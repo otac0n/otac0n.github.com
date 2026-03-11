@@ -5,10 +5,12 @@ $(function(){
     var text = $this.text();
     var match = /^language: ([-\w]+)(\r\n?|\n)/.exec(text);
     if (match) {
-      $this.addClass('lang-' + match[1]).text(text.substring(match[0].length));
+      var cssClass = match[1] === 'mermaid' ? 'mermaid' : 'lang-' + match[1];
+      $this.addClass(cssClass).text(text.substring(match[0].length));
     }
   });
   prettyPrint();
+  mermaid.run({ nodes: [ document.getElementsByClass('mermaid') ] });
 
   var headings = [];
 
