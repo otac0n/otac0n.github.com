@@ -31,7 +31,7 @@ I paved this basic roadmap:
 
 To save costs, I hoped to reuse as many of the prototype components in the final bot as possible. So, based mostly on the Simple FOC Arduino Balancer project, I drafted this design:
 
-![System Desing (draft)](/blog/images/mk.ii/foc-balancer-system-v1.png)
+![System Design (draft)](/blog/images/mk.ii/foc-balancer-system-v1.png)
 <div class="alt" style="display: none"><pre><code>
 language: mermaid
 graph TB
@@ -108,7 +108,7 @@ I narrowed down the list of STM boards based on this feedback and the prices at 
 
 I finally settled on the STM32F411DISCOVERY board based on my perception of the usefulness of the on-board hardware contrasted against the price. The AS5048A stood out as a good choice due to its ABZ and SPI modes. The larger of the motors, the GM4108H-120T, fit barely within the wheel dimensions of the Mk.II: perfect.
 
-![System Desing (ordered)](/blog/images/mk.ii/foc-balancer-system-v2.png)
+![System Design (ordered)](/blog/images/mk.ii/foc-balancer-system-v2.png)
 <div class="alt" style="display: none"><pre><code>
 language: mermaid
 graph TB
