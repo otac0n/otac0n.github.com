@@ -4,21 +4,16 @@ title: Socials
 ---
 
         <dl>
-          <dt>Support me on Patreon</dt><dd><a href="https://www.patreon.com/otac0n">@otac0n</a></dd>
-          <dt>Become a GitHub Sponsor</dt><dd><a href="https://github.com/sponsors/otac0n">@otac0n</a></dd>
-          <dt>Buy me a coffee</dt><dd><a href="https://paypal.me/JohnGietzen">JohnGietzen</a></dd>
-          <dt>Twitter / X</dt><dd><a href="https://x.com/otac0n">@otac0n</a></dd>
-          <dt>Bluesky</dt><dd><a href="https://bsky.app/profile/otac0n.bsky.social">otac0n.bsky.social</a></dd>
-          <dt>Mastodon</dt><dd><a href="https://mastodon.social/@otac0n">@otac0n@mastodon.social</a><span style="display: none"> (previously @otac0n@masthead.social)</span></dd>
-          <dt>Github</dt><dd><a href="https://github.com/otac0n">otac0n</a></dd>
-          <dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/johngietzen">johngietzen</a></dd>
-          <dt>Facebook</dt><dd><a href="https://facebook.com/otac0n">otac0n</a></dd>
-          <dt>Threads</dt><dd><a href="https://www.threads.com/@jogietze">jogietze</a></dd>
-          <dt>Twitch</dt><dd><a href="https://www.twitch.tv/otac0n">otac0n</a></dd>
-          <dt>YouTube</dt><dd><a href="https://www.youtube.com/user/spoonfuloftactic">spoonfuloftactic</a></dd>
-          <dt>Steam</dt><dd><a href="https://steamcommunity.com/id/otac0n">otac0n</a></dd>
-          <dt>Xbox Live</dt><dd><a href="https://www.xbox.com/en-US/play/user/jogietze">jogietze</a></dd>
-          <dt>Keybase</dt><dd><a href="https://keybase.io/otac0n">otac0n</a></dd>
-          <dt>StackExchange</dt><dd><a href="https://stackexchange.com/users/23210/john-gietzen"><img src="https://stackexchange.com/users/flair/23210.png" width="208" height="58" alt="John Gietzen's profile"></a></dd>
-          <dt>Project Euler</dt><dd><a href="https://projecteuler.net/progress=otac0n"><img src="https://projecteuler.net/profile/otac0n.png"/></a></dd>
+        {% for link in site.data.links %}
+          <dt>{{ link.text | default: link.site }}</dt>
+          <dd>
+            <a href="{{ link.url }}" target="_blank" rel="noopener">
+            {% if link.flair %}
+              <img src="{{ link.flair.url }}" width="{{ link.flair.width }}" height="{{ link.flair.height }}" /></span>
+            {% else %}
+              <span>{{ link.handle }}</span>
+            {% endif %}
+            </a>
+          </dd>
+        {% endfor %}
         </dl>

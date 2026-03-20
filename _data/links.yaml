@@ -1,0 +1,78 @@
+- site: Patreon
+  text: Support me on Patreon
+  url: https://www.patreon.com/otac0n
+  handle: '@otac0n'
+
+- site: GitHub
+  text: Become a GitHub Sponsor
+  url: https://github.com/sponsors/otac0n
+  handle: '@otac0n'
+
+- site: PayPal
+  text: Buy me a coffee
+  url: https://paypal.me/JohnGietzen
+  handle: JohnGietzen
+
+- site: Twitter / X
+  url: https://x.com/otac0n
+  handle: '@otac0n'
+
+- site: Bluesky
+  url: https://bsky.app/profile/otac0n.bsky.social
+  handle: otac0n.bsky.social
+
+- site: Mastodon
+  url: https://mastodon.social/@otac0n
+  handle: otac0n@mastodon.social
+
+- site: Github
+  url: https://github.com/otac0n
+  handle: otac0n
+
+- site: LinkedIn
+  url: https://www.linkedin.com/in/johngietzen
+  handle: johngietzen
+
+- site: Facebook
+  url: https://facebook.com/otac0n
+  handle: otac0n
+
+- site: Threads
+  url: https://www.threads.com/@jogietze
+  handle: jogietze
+
+- site: Twitch
+  url: https://www.twitch.tv/otac0n
+  handle: otac0n
+
+- site: YouTube
+  url: https://www.youtube.com/user/spoonfuloftactic
+  handle: spoonfuloftactic
+
+- site: Steam
+  url: https://steamcommunity.com/id/otac0n
+  handle: otac0n
+
+- site: Xbox Live
+  url: https://www.xbox.com/en-US/play/user/jogietze
+  handle: jogietze
+
+- site: Keybase
+  url: https://keybase.io/otac0n
+  handle: otac0n
+
+- site: StackExchange
+  url: https://stackexchange.com/users/23210/john-gietzen
+  handle: john-gietzen
+  flair:
+    width: 208
+    height: 58
+    url: https://stackexchange.com/users/flair/23210.png
+
+- site: Project Euler
+  url: https://projecteuler.net/progress=otac0n
+  handle: otac0n
+  flair:
+    width: 200
+    height: 60
+    url: https://projecteuler.net/profile/otac0n.png

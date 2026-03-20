@@ -1,0 +1,16 @@
+<ul class="links-list">
+{% for link in site.data.links %}
+  <li>
+    {% unless link.flair %}
+      {{ link.site }}
+    {% endunless %}
+    <a href="{{ link.url }}" target="_blank" rel="noopener">
+    {% if link.flair %}
+      <img src="{{ link.flair.url }}" width="{{ link.flair.width }}" height="{{ link.flair.height }}" /></span>
+    {% else %}
+      <span>{{ link.text | default: link.handle }}</span>
+    {% endif %}
+    </a>
+  </li>
+{% endfor %}
+</ul>

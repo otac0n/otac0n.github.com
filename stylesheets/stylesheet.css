@@ -519,6 +519,20 @@ article.post img {
   display: block;
 }
 
+#links {
+  position: absolute;
+  left: calc(50% + 372px);
+  color: #fff;
+  background: #222;
+  border: 5px solid #444;
+  padding: 10px;
+  margin: 0 -35px 20px;
+}
+
+#links .links-list li {
+  list-style-type: none;
+}
+
 dl {
   display: grid;
 }
