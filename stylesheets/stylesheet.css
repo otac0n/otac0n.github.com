@@ -466,7 +466,6 @@ article.post td {
 
 article.post td:first-child,
 article.post th:first-child {
-  width: 30%;
   padding-left: 20px;
 }
 
