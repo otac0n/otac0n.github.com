@@ -1,8 +1,8 @@
-url: http://otac0n.com
+url: https://otac0n.com
 title: Technical Taco
 tagline: 'I''m just some guy, you know?'
 author_name: John Gietzen
-author_email: otac0n@gietzen.us
+author_email: john@gietzen.net
 
 permalink: /blog/:year/:month/:day/:title.html
 markdown: rdiscount
