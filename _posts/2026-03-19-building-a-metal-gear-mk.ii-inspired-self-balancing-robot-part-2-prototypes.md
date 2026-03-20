@@ -163,7 +163,7 @@ If you have any soldering experience, you can probably tell there are a few thin
 
 Don't worry too much about this, as I ended up rewiring this board directly and these errors didn't impact the prototyping progress.
 
-From the software side things weren't simple. On one hand I had fully working sensors under ZephyrOS, but on the other hand I had a proof of concept in the way of the Arduino SimpleFOC Balancer project. At the time there was only a single lonesome Zephyr project doing FOC, [Spinner](https://github.com/teslabs/spinner). I had to decide immediately whether I would attempt to fill the feature gaps to enable a SimpleFOC-like API on Zephyr or to add Arduino support for my board.
+From the software side things weren't simple. On one hand, I had fully working sensors under ZephyrOS, but on the other hand, I had a proof of concept in the way of the Arduino SimpleFOC Balancer project. At the time, there was only a single lonesome Zephyr project doing FOC: [Spinner](https://github.com/teslabs/spinner). I had to decide immediately whether I would attempt to fill the feature gaps to enable a SimpleFOC-like API on Zephyr or to add Arduino support for my board.
 
 I decided, since the process to add a new STM32 Arduino variant was [well documented](https://github.com/stm32duino/Arduino_Core_STM32/wiki/Add-a-new-variant-%28board%29), that adding the board aligned better with my skillset. While this did set me back several days and a couple of dollars for a [CP2101 USB UART](https://amzn.to/3NyFk3T) serial adapter, I do think that [my contribution](https://github.com/stm32duino/Arduino_Core_STM32/pull/2805) here has already been beneficial to the community. I wasn't able to convince my local copy of Platform.IO to use my custom build of STM32Duino, so unfortunately I had to avoid Platform.IO for anything except serial debugging from here out.
 
@@ -194,7 +194,7 @@ My friend Arthur was kind enough to 3D-print a few of my designs, so I was now a
 
 ![Ankle Powered](/blog/images/mk.ii/ankle-powered.jpg)
 
-I powered up the experiment, saw the motors move, but the angle sensors read zero. I was clearly missing something. I once again implored the help of the SimpleFOC Discord channel. I had assumed was that the motors' own magnetic fields would be captured by the sensor. The AS5047P magnetic sensor does after offer the "UVW" mode, which I understood to be reading the field strength of each motor's coils. What I did not realize is that this is merely an emulation mode offered by the chip. The chip itself requires a magnet position directly above it to work. And it can't just be any old magnet either; It has to be a diametrically magnetized magnet.
+I powered up the experiment, saw the motors move, but the angle sensors read zero. I was clearly missing something. I once again implored the help of the SimpleFOC Discord channel. I had assumed was that the motors' own magnetic fields would be captured by the sensor. The AS5047P magnetic sensor does after offer the "UVW" mode, which I understood to be reading the field strength of each motor's coils. What I did not realize is that this is merely an emulation mode offered by the chip. The chip itself requires a magnet positioned directly above it to work. And it can't just be any old magnet either; it has to be a diametrically magnetized magnet.
 
 ![Mk.III Slide](/blog/images/mk.ii/mk.iii-slide.jpg)
 
@@ -223,7 +223,7 @@ I was still depending on my friend Arthur for 3D prints, so I figured the easies
 
 I arranged a meet-up to get the 3D printed wheels & tires at our local makerspace. And it was there that the poor electronics hygiene caught up with me. I assembled the wheels, powered the bot on, and... a twitch and then it almost immediately fell silent.
 
-I pulled the power and hooked up USB serial to assess the damage. The board gave me random text in return. I fried the brains and the sensors. Oof. Most likely what happened is that one of the 15V leads from the step-down must have contacted one of the lower-voltage data lines on the STM32. There was nowhere to secure the voltage regulator inside the box and I had not protected the leads.
+I pulled the power and hooked up USB serial to assess the damage. The board gave me random text in return. I fried the brains and the sensors. Oof. Most likely what happened is that one of the 15V leads from the step-down must have contacted one of the lower-voltage data lines on the STM32. There was nowhere to secure the voltage regulator inside the box, and I had not protected the leads.
 
 At this point, I decided I had to make some specific changes. Going forward, I decided:
 
@@ -232,7 +232,7 @@ At this point, I decided I had to make some specific changes. Going forward, I d
       - Follow standards for XT connectors.
   3. All power leads must be secured to the chassis.
 
-I designed an enclosure with plenty of tie-down points and asked for Arthur to print it. I also reordered the fried parts: 1 STM32 board and 2 AS5047P sensors (all of my low-voltage devices). It didn't take long for me to reconsider my choice of STM32. I wanted the bot to be controlled like the game, and this meant using a Bluetooth controller. In parallel, I ordered a few extra parts that could be here quicker.
+I designed an enclosure with plenty of tie-down points and asked for Arthur to print it. I also reordered the fried parts: 1 STM32 board and 2 AS5047P sensors (all of my low-voltage devices). It didn't take long for me to reconsider my choice of STM32. I wanted the bot to be controlled like it is in the game, and this meant using a Bluetooth controller. In parallel, I ordered a few extra parts that could be here quicker.
 
 - ~~[ESP32-S3-DevKitC-1](https://amzn.to/4rHftoB)~~ *BLE only, not used in latest design*
 - [WiFi Antenna](https://amzn.to/4rDjpq8)
@@ -244,6 +244,6 @@ This further hints at some design changes that we will see in later posts.
 
 ## Coming Up...
 
-In the upcoming posts I'll be covering my CAD journey, traction, PID tuning, designing for 3D printing, and more!
+In the upcoming posts, I'll be covering my CAD journey, traction, PID tuning, designing for 3D printing, and more!
 
 Stay tuned.
