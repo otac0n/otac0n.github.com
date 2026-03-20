@@ -194,7 +194,7 @@ My friend Arthur was kind enough to 3D-print a few of my designs, so I was now a
 
 ![Ankle Powered](/blog/images/mk.ii/ankle-powered.jpg)
 
-I powered up the experiment, saw the motors move, but the angle sensors read zero. I was clearly missing something. I once again implored the help of the SimpleFOC Discord channel. I had assumed was that the motors' own magnetic fields would be captured by the sensor. The AS5047P magnetic sensor does after offer the "UVW" mode, which I understood to be reading the field strength of each motor's coils. What I did not realize is that this is merely an emulation mode offered by the chip. The chip itself requires a magnet positioned directly above it to work. And it can't just be any old magnet either; it has to be a diametrically magnetized magnet.
+I powered up the experiment, saw the motors move, but the angle sensors read zero. I was clearly missing something. I once again implored the help of the SimpleFOC Discord channel. I had assumed that the motors' own magnetic fields would be captured by the sensor. The AS5047P magnetic sensor does after offer the "UVW" mode, which I understood to be reading the field strength of each motor's coils. What I did not realize is that this is merely an emulation mode offered by the chip. The chip itself requires a magnet positioned directly above it to work. And it can't just be any old magnet either; it has to be a diametrically magnetized magnet.
 
 ![Mk.III Slide](/blog/images/mk.ii/mk.iii-slide.jpg)
 
@@ -207,7 +207,7 @@ If I wanted to stay true to the Mk.II/III design, I had to mount the inner wheel
      - < ~10 mm outer diameter
   - As wide of an inner diameter as possible
 
-I searched through every magnet website around but I could not find anything that fit perfectly within my original design. But, as luck would have it, I did find exactly [ONE option](https://www.buyneomagnets.com/p/9mm-od-x-5mm-id-x-3mm-thick-diametrically-magnetized-ring-magnets-n38-strong-neodymium-ring-magnets-20-pack/) that was close. It had a much smaller inner diameter that I like, but I wagered: with a small redesign and a change in material, I could make it work.
+I searched through every magnet website around but I could not find anything that fit perfectly within my original design. But, as luck would have it, I did find exactly [ONE option](https://www.buyneomagnets.com/p/9mm-od-x-5mm-id-x-3mm-thick-diametrically-magnetized-ring-magnets-n38-strong-neodymium-ring-magnets-20-pack/) that was close. It had a much smaller inner diameter than I like, but I wagered: with a small redesign and a change in material, I could make it work.
 
 Once they arrived and were installed, I had every individual component working.
 
