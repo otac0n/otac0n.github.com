@@ -2,7 +2,9 @@
 {% for link in site.data.links %}
   <li>
     {% unless link.flair %}
+    {% unless link.text %}
       {{ link.site }}
+    {% endunless %}
     {% endunless %}
     <a href="{{ link.url }}" target="_blank" rel="noopener">
     {% if link.flair %}
