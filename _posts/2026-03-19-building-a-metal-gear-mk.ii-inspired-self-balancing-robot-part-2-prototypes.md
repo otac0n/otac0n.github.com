@@ -105,7 +105,7 @@ The first prototype I wanted to create was something that could display the stat
     
 Combined with a basic `led_service`, this was enough to build a "this-way-up" demo:
 
-{% include videoPlayer.html url=/blog/images/mk.ii/this-way-up.mp4 width=480 height=600 %}
+{% include videoPlayer.html url='/blog/images/mk.ii/this-way-up.mp4' width=480 height=600 %}
 
 Next, I wanted to implement something similar for the gyroscope. Only one problem: Zephyr didn't know about the STM32's gyroscope. It took me about an hour to figure out how to inform Zephyr about the device. I was able to reuse most of the details from the STM32F407 board configuration.
 
@@ -137,7 +137,7 @@ I [sent a PR](https://github.com/zephyrproject-rtos/zephyr/pull/95133) so that o
 
 Using a cheap fridge magnet, I was able to show that the sensor was working:
 
-{% include videoPlayer.html url=/blog/images/mk.ii/magnetic-encoder-demo.mp4 width=800 height=800 %}
+{% include videoPlayer.html url='/blog/images/mk.ii/magnetic-encoder-demo.mp4' width=600 height=600 %}
 
 A couple of times I managed to short out the system by touching the sensor power leads with the magnet's metal housing. I didn't realize it at the time, but this was a clear indication that my electronics hygiene needed to improve.
 
@@ -169,19 +169,22 @@ I decided, since the process to add a new STM32 Arduino variant was [well docume
 
 Nevertheless, after adding a `motor_service` I was able to get a basic SimpleFOC open-loop motion demo running:
 
-{% include videoPlayer.html url=/blog/images/mk.ii/open-loop.mp4 width=600 height=800 %}
+{% include videoPlayer.html url='/blog/images/mk.ii/open-loop.mp4' width=600 height=800 %}
 
 The periodic pausing you see there is due to one out of three phases conflicting with other onboard devices. After switching the signal PWM channels to unused pins, I got smooth open-loop control working: 
 
-{% include videoPlayer.html url=/blog/images/mk.ii/open-loop-motion-control.mp4 width=600 height=800 %}
+{% include videoPlayer.html url='/blog/images/mk.ii/open-loop-motion-control.mp4' width=600 height=800 %}
 
 ## The Missing Magnet
 
 I purchased some [Gold Filament](https://amzn.to/4bhpWCa) for the prototype. I always equip Gold in Kojima's Games and wanted to pay homage.
 
-| MGS:V | Death Stranding |
-|---|---|
-| ![Metal Gear Solid V - Gold Loadout](/blog/images/mk.ii/gold-mgsv.jpg) | ![Death Stranding - Gold Loadout](/blog/images/mk.ii/gold-death-stranding.jpg) |
+<table>
+  <tr>
+    <td><img src="/blog/images/mk.ii/gold-mgsv.jpg" alt="Metal Gear Solid V - Gold Loadout"/></td>
+    <td><img src="/blog/images/mk.ii/gold-death-stranding.jpg" alt="Death Stranding - Gold Loadout"/></td>
+  </tr>
+</table>
 
 My friend Arthur was kind enough to 3D-print a few of my designs, so I was now able to integrate all of the leg parts into a single package.
 
@@ -210,7 +213,7 @@ Once they arrived and were installed, I had every individual componet working.
 
 ![Magnet Fit](/blog/images/mk.ii/magnet-fit.jpg)
 
-{% include videoPlayer.html url=/blog/images/mk.ii/sensor-working.mp4 width=600 height=750 %}
+{% include videoPlayer.html url='/blog/images/mk.ii/sensor-working.mp4' width=600 height=750 %}
 
 ## Hygiene
 
