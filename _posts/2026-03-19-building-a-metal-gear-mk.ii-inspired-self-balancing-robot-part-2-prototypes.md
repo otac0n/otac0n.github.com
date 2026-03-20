@@ -209,13 +209,13 @@ If I wanted to stay true to the Mk.II/III design, I had to mount the inner wheel
 
 I searched through every magnet website around but I could not find anything that fit perfectly within my original design. But, as luck would have it, I did find exactly [ONE option](https://www.buyneomagnets.com/p/9mm-od-x-5mm-id-x-3mm-thick-diametrically-magnetized-ring-magnets-n38-strong-neodymium-ring-magnets-20-pack/) that was close. It had a much smaller inner diameter that I like, but I wagered: with a small redesign and a change in material, I could make it work.
 
-Once they arrived and were installed, I had every individual componet working.
+Once they arrived and were installed, I had every individual component working.
 
 ![Magnet Fit](/blog/images/mk.ii/magnet-fit.jpg)
 
 {% include videoPlayer.html url='/blog/images/mk.ii/sensor-working.mp4' width=600 height=750 %}
 
-## Hygiene
+## The Hygiene Lesson
 
 I was still depending on my friend Arthur for 3D prints, so I figured the easiest way to get a fully integrated prototype assembled would be to build the body out of cardboard. I grabbed a cardboard box, measured up and cut holes for mounting the ankles, and threw it all together:
 
