@@ -249,4 +249,4 @@ In the upcoming posts, I'll be covering my CAD journey, traction, PID tuning, de
 Stay tuned.
 
 Previous Post: [Part 1: System Design](/blog/2026/03/11/building-a-metal-gear-mk.ii-inspired-self-balancing-robot-part-1-system-design.html)
-Next Post: [Part 3: CAD Design](/blog/2026/03/19/building-a-metal-gear-mk.ii-inspired-self-balancing-robot-part-3-cad-design.html)
+Next Post: [Part 3: CAD Design](/blog/2026/04/12/building-a-metal-gear-mk.ii-inspired-self-balancing-robot-part-3-cad-design.html)
