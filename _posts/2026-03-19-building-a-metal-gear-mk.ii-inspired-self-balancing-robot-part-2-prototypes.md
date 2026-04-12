@@ -247,3 +247,6 @@ This further hints at some design changes that we will see in later posts.
 In the upcoming posts, I'll be covering my CAD journey, traction, PID tuning, designing for 3D printing, and more!
 
 Stay tuned.
+
+Previous Post: [Part 1: System Design](/blog/2026/03/11/building-a-metal-gear-mk.ii-inspired-self-balancing-robot-part-1-system-design.html)
+Next Post: [Part 3: CAD Design](/blog/2026/03/19/building-a-metal-gear-mk.ii-inspired-self-balancing-robot-part-3-cad-design.html)

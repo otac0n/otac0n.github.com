@@ -163,3 +163,5 @@ This project is several firsts for me:
 In the next post, I will cover the path to the first working prototypes.
 
 Does this design ultimately change? (Spoiler: yes)
+
+Next Post: [Part 2: Prototypes](/blog/2026/03/19/building-a-metal-gear-mk.ii-inspired-self-balancing-robot-part-2-prototypes.html)
