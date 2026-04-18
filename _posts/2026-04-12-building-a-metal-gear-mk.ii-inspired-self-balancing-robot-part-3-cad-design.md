@@ -7,7 +7,7 @@ tags:
 
 ## FreeCAD
 
-When I started the Mk.II project, I didn't have any meaningful CAD experience. I had been watching channels like Wintergaaten and Makers Muse do amazing things with CAD, so I had some idea of what to do. I chose to learn FreeCAD because of its open-source nature and fully-featured user experience. In order to get up to speed, I made use of the FreeCAD 101 series on YouTube as well as Mangojelly's videos:
+When I started the Mk.II project, I didn't have any meaningful CAD experience. I had been watching channels like [Maker's Muse](https://www.youtube.com/@MakersMuse), [Wintergatan](https://www.youtube.com/@Wintergatan), [BPS.space](https://www.youtube.com/bpsspace), and [rctestflight](https://www.youtube.com/user/RCtestflight) do amazing things with CAD, so I had some idea of what to do. I chose to learn FreeCAD because of its open-source nature and fully-featured user experience. In order to get up to speed, I made use of the FreeCAD 101 series on YouTube as well as Mangojelly's videos:
 
 - [FreeCAD 1.0 Tutorial for beginners 2025](https://www.youtube.com/watch?v=jULWgMV9_TM)
 - [FreeCAD: Sketch on Curved Surface](https://www.youtube.com/watch?v=93LIxgRXeew)
@@ -111,3 +111,4 @@ The first layer of any 3D print is the most critical. If the filament doesn't st
 If you read up to this point, you've seen the process I used to design the Mk.II's various components. Coming up is where the rubber meets the road (literaly!). We'll be talking traction, balance, PID tuning and finally showing off the bot!
 
 Previous Post: [Part 2: Prototypes](/blog/2026/03/19/building-a-metal-gear-mk.ii-inspired-self-balancing-robot-part-2-prototypes.html)
+Next Post: [Part 4: Traction and Balance](/blog/2026/04/17/building-a-metal-gear-mk.ii-inspired-self-balancing-robot-part-4-traction-and-balance.html)
