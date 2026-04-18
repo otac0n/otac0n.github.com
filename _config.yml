@@ -6,4 +6,6 @@ author_email: john@gietzen.net
 
 permalink: /blog/:year/:month/:day/:title.html
 markdown: rdiscount
-exclude: run.cmd
+exclude:
+  - run.cmd
+  - docker-compose.yml
