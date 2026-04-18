@@ -357,7 +357,8 @@ article.post ul,
 article.post ol,
 article.post dl,
 article.post table,
-article.post blockquote {
+article.post blockquote,
+article.post div.embed-container {
   margin-bottom: 20px;
 }
 
@@ -512,11 +513,12 @@ article.post blockquote:before {
   float: left;
 }
 
-article.post img {
+article.post img, article.post video {
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
   display: block;
+  height: auto;
 }
 
 #links {
