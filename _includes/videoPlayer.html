@@ -1,5 +1,5 @@
 <div class="embed-container">
-  <video width="{{ include.width }}" height="{{ include.height }}" controls playsinline>
+  <video width="{{ include.width }}" height="{{ include.height }}" {%unless include.nocontrols%} controls{%endunless%}{%if include.playsinline%} playsinline{%endif%}{%if include.autoplay %} autoplay{%endif%}{%if include.muted %} muted{%endif%}{%if include.loop %} loop{%endif%}>
     <source src="{{ include.url }}" type="video/mp4">
   </video>
 </div>
